@@ -11,7 +11,7 @@ services:
     restart: always
     ports:
       - 8496:8496
-      - 8080:8080
+      - 8888:8888
   web:
     build: .
     volumes:

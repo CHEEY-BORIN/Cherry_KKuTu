@@ -16,10 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * 볕뉘 수정사항
- * 보안처리 관련 코드 생성
- */
 
 const Const = require('../const')
 const File = require('fs')

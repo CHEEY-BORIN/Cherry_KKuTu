@@ -1,2 +1,186 @@
 This is an error log file of the game server.
 You may use like `tail -f KKUTU_ERROR.log` to watch this.
+:9304 [2021-7-15 12:55:12 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:140:15
+    at callback (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 12:58:01 ├F10: PM┤] ERROR: TypeError: Cannot read property 'findOne' of undefined
+TypeError: Cannot read property 'findOne' of undefined
+    at WebSocketServer.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:132:17)
+    at WebSocketServer.emit (events.js:314:20)
+    at C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:88:16
+    at WebSocketServer.completeUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:270:5)
+    at WebSocketServer.handleUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:197:10)
+    at Server.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:87:14)
+    at Server.emit (events.js:314:20)
+    at onParserExecuteCommon (_http_server.js:641:14)
+    at onParserExecute (_http_server.js:575:3):9304 [2021-7-15 12:58:42 ├F10: PM┤] ERROR: TypeError: Cannot read property 'findOne' of undefined
+TypeError: Cannot read property 'findOne' of undefined
+    at WebSocketServer.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:132:17)
+    at WebSocketServer.emit (events.js:314:20)
+    at C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:88:16
+    at WebSocketServer.completeUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:270:5)
+    at WebSocketServer.handleUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:197:10)
+    at Server.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:87:14)
+    at Server.emit (events.js:314:20)
+    at onParserExecuteCommon (_http_server.js:641:14)
+    at onParserExecute (_http_server.js:575:3):9304 [2021-7-15 12:58:46 ├F10: PM┤] ERROR: TypeError: Cannot read property 'findOne' of undefined
+TypeError: Cannot read property 'findOne' of undefined
+    at WebSocketServer.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:132:17)
+    at WebSocketServer.emit (events.js:314:20)
+    at C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:88:16
+    at WebSocketServer.completeUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:270:5)
+    at WebSocketServer.handleUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:197:10)
+    at Server.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:87:14)
+    at Server.emit (events.js:314:20)
+    at onParserExecuteCommon (_http_server.js:641:14)
+    at onParserExecute (_http_server.js:575:3):9304 [2021-7-15 1:00:40 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:140:15
+    at callback (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 1:01:12 ├F10: PM┤] ERROR: TypeError: Cannot read property 'findOne' of undefined
+TypeError: Cannot read property 'findOne' of undefined
+    at WebSocketServer.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:132:17)
+    at WebSocketServer.emit (events.js:314:20)
+    at C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:88:16
+    at WebSocketServer.completeUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:270:5)
+    at WebSocketServer.handleUpgrade (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:197:10)
+    at Server.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\ws\lib\WebSocketServer.js:87:14)
+    at Server.emit (events.js:314:20)
+    at onParserExecuteCommon (_http_server.js:641:14)
+    at onParserExecute (_http_server.js:575:3):9304 [2021-7-15 1:01:43 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:140:15
+    at callback (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 1:02:51 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:140:15
+    at callback (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 1:06:22 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\KKuTu-master\KKuTu-master\Server\lib\Game\slave.js:140:15
+    at callback (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\KKuTu-master\KKuTu-master\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\KKuTu-master\KKuTu-master\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 2:44:54 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 6:50:21 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:06:03 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:09:35 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:10:20 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:11:04 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:37:49 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-15 7:37:56 ├F10: PM┤] ERROR: TypeError: Cannot read property 'reasonBlocked' of undefined
+TypeError: Cannot read property 'reasonBlocked' of undefined
+    at C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\Game\slave.js:140:15
+    at callback (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:316:13)
+    at Result.preCB (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\sub\collection.js:298:6)
+    at Result.Query.handleReadyForQuery (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\query.js:144:10)
+    at Connection.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:180:19)
+    at Connection.emit (events.js:314:20)
+    at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    at readableAddChunk (_stream_readable.js:272:9)
