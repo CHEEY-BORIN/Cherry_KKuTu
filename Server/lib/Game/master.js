@@ -86,6 +86,7 @@ function processAdmin(id, value){
 				temp.socket.close();
 			}
 			return null;
+			
 		case "tailroom":
 			if(temp = ROOM[value]){
 				if(T_ROOM[value] == id){
@@ -107,14 +108,14 @@ function processAdmin(id, value){
 			return null;
 		case "dump":
 			if(DIC[id]) DIC[id].send('yell', { value: "This feature is not supported..." });
-			/*Heapdump.writeSnapshot("/home/kkutu_memdump_" + Date.now() + ".heapsnapshot", function(err){
+			Heapdump.writeSnapshot("/home/kkutu_memdump_" + Date.now() + ".heapsnapshot", function(err){
 				if(err){
 					JLog.error("Error when dumping!");
 					return JLog.error(err.toString());
 				}
 				if(DIC[id]) DIC[id].send('yell', { value: "DUMP OK" });
 				JLog.success("Dumping success.");
-			});*/
+			});
 			return null;
 		/* Enhanced User Block System [S] */
 		case 'ban':
@@ -401,6 +402,7 @@ exports.init = function(_SID, CHAN){
 				/* Enhanced User Block System [S] */
 				if(GLOBAL.USER_BLOCK_OPTIONS.USE_MODULE && ((GLOBAL.USER_BLOCK_OPTIONS.BLOCK_IP_ONLY_FOR_GUEST && $c.guest) || !GLOBAL.USER_BLOCK_OPTIONS.BLOCK_IP_ONLY_FOR_GUEST)){
 					MainDB.ip_block.findOne([ '_id', $c.remoteAddress ]).on(function($body){
+						if (!$body) return;
 						if ($body.reasonBlocked) {
 							if($body.ipBlockedUntil < Date.now()) {
 								MainDB.ip_block.update([ '_id', $c.remoteAddress ]).set([ 'ipBlockedUntil', 0 ], [ 'reasonBlocked', null ]).on();
