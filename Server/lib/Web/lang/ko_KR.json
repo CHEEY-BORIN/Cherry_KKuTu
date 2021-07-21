@@ -1,6 +1,6 @@
 {
 	"GLOBAL": {
-		"GPL": "<div style='color: #666;'>글자로 놀자! 끄투 온라인 Copyright (C) {2021} {cherry_borin}({godple13@kakao.com})<br>이 프로그램은 제품에 대한 어떠한 형태의 보증도 제공되지 않습니다.<br>이 프로그램은 자유 소프트웨어이며 배포 규정을 만족시키는 조건 아래 자유롭게 재배포할 수 있습니다.<br>이에 대한 자세한 사항은 본 프로그램의 구현을 담은 다음 레포지토리에서 확인하십시오: <a target='_blank' href='{https://github.com/CHEEY-BORIN/Cherry-KKuTu}'>{코드}</a></div>",
+		"GPL": "<div style='color: #666;'>글자로 놀자! 끄투 온라인 Copyright (C) {2021} {cherry_borin}({godple13@kakao.com})<br>이 프로그램은 제품에 대한 어떠한 형태의 보증도 제공되지 않습니다.<br>이 프로그램은 자유 소프트웨어이며 배포 규정을 만족시키는 조건 아래 자유롭게 재배포할 수 있습니다.<br>이에 대한 자세한 사항은 본 프로그램의 구현을 담은 다음 레포지토리에서 확인하십시오: <a> {https://github.com/CHEEY-BORIN/Cherry_KKuTu}'</a></div>",
 
 		"CREATOR":	"개발자 블로그",
 		"HOME":		"FA{home}",
@@ -10,6 +10,8 @@
 		"ETC":		"???",
 		"ETC_ABOUT":	"쪼롤이 뭐지",
 		"SETTING":	"설정",
+		"wordtxt": "단어 구축 계획",
+		"DiscordLink": "디스코드 링크",
 		
 		"GLOBAL_NOTICE": "클릭하여 닫기",
 	
@@ -59,7 +61,7 @@
 		"QUICK_HOLDER": "빠른 소환사 검색",
 		"QUICK_BTN": "FA{search}",
 		"LOGIN": "로그인",
-		"ASK_LOGOUT": "로그아웃 합니까?",
+		"ASK_LOGOUT": "로그아웃 하시겠습니까?",
 		"AS_PC": "PC 버전",
 		"AS_MOBILE": "모바일 버전",
 		"AGREEMENT": "서비스 이용 약관",
@@ -70,7 +72,7 @@
 		"PRE_SEASON": "전 시즌",
 		
 		"ITEM_TERM": "기간제 항목",
-		"ITEM_TERMED": "까지 사용 가능",
+		"ITEM_TERMED": "까지 사용이 가능합니다.",
 		
 		"OPTS_gEXP": "획득 경험치",
 		"OPTS_hEXP": "분당 추가 경험치",
@@ -104,17 +106,17 @@
 		"500_e": "예기치 못한 원인으로 내부 서버가 작동을 중지했습니다."
 	},
 	"login": {
-		"title": "로그인",
-		"loginWith": "로그인 방법을 선택하세요.",
-		"withDaldalso": "달달소 아이디로 로그인",
-		"withNaver": "네이버 아이디로 로그인",
-		"withFacebook": "페이스북 아이디로 로그인",
-		"withGoogle": "구글 아이디로 로그인",
-		"withTwitter": "트위터 아이디로 로그인",
-		"withKakao": "카카오 아이디로 로그인",
-		"withDiscord": "디스코드 아이디로 로그인",
+		"title": "로그인 하기!",
+		"loginWith": "로그인 할 방법을 선택하세요.",
+		"withDaldalso": "달달소 아이디로 로그인 하기",
+		"withNaver": "네이버 아이디로 로그인 하기",
+		"withFacebook": "페이스북 아이디로 로그인 하기",
+		"withGoogle": "구글 아이디로 로그인 하기",
+		"withTwitter": "트위터 아이디로 로그인 하기",
+		"withKakao": "카카오 아이디로 로그인 하기",
+		"withDiscord": "디스코드 아이디로 로그인 하기",
 		"withTwitch": "트위치 아이디로 로그인",
-		"withGithub": "깃허브 아이디로 로그인",
+		"withGithub": "깃허브 아이디로 로그인 하기",
 		"withLine": "라인 아이디로 로그인",
 		"withInstagram": "인스타그램 아이디로 로그인",
 		"withSpotify": "Spotify 아이디로 로그인",
@@ -123,7 +125,7 @@
 	"loginfail": {
 		"title": "로그인 실패",
 		"description": "로그인에 실패하였습니다. 다시 시도해주세요.",
-		"login": "로그인"
+		"login": "로그인 하기"
 	},
 	"kkutu": {
 		"title": "글자로 놀자! 끄투 온라인",
@@ -390,6 +392,7 @@
 		"theme_KMV": "한국 영화",
 		"theme_HDC": "함대 컬렉션",
 		"theme_HOS": "히어로즈 오브 더 스톰",
+		"theme_CHERRYKKUTU": "체리끄투 어인정 단어!",
 		
 		"class_1": "명",
 		"class_2": "대명",
@@ -479,7 +482,9 @@
 		"theme_510": "항공",
 		"theme_520": "해양",
 		"theme_530": "화학",
+		"theme_540": "환경",
 		"theme_1001": "나라 이름과 수도",
+		"theme_NOCHERRYKKUTU": "체리끄투 노인정 단어!",
 		"jqTheme": "주제",
 		
 		"class_n": "명",

@@ -18,7 +18,7 @@
 
 var GLOBAL = require("./sub/global.json");
 
-exports.KKUTU_MAX = 400;
+exports.KKUTU_MAX = 50;
 exports.MAIN_PORTS = GLOBAL.MAIN_PORTS;
 exports.TEST_PORT = 4040;
 exports.SPAM_CLEAR_DELAY = 1600;
@@ -206,7 +206,7 @@ exports.KO_INJEONG = [
 	"MOB", "HYK", "CYP", "HRH", "STA", "OIJ",
 	"KGR", "ESB", "ELW", "OIM", "OVW", "NEX", /*"WOW",*/
 	"YRY", "KPO", "JLN", "JAN", "ZEL", "POK", "HAI",
-	"HSS", "KMV", "HDC", "HOS"
+	"HSS", "KMV", "HDC", "HOS", "CHERRYKKUTU"
 ];
 exports.EN_INJEONG = [
 	"LOL"
@@ -216,7 +216,7 @@ exports.KO_THEME = [
 	"140", "150", "160", "170", "190",
 	"220", "230", "240", "270", "310",
 	"320", "350", "360", "420", "430",
-	"450", "490", "530", "1001"
+	"450", "490", "530", "540", "1001","NOCHERRYKKUTU"
 ];
 exports.EN_THEME = [
 	"e05", "e08", "e12", "e13", "e15",

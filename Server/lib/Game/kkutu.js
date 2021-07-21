@@ -17,6 +17,7 @@
  */
 
 var GUEST_PERMISSION;
+var Bot = require("./bot")
 var Cluster = require("cluster");
 var Const = require('../const');
 var Lizard = require('../sub/lizard');
@@ -288,6 +289,7 @@ exports.Client = function(socket, profile, sid){
 		if(!msg) return;
 		
 		JLog.log(`Chan @${channel} Msg #${my.id}: ${msg}`);
+		Bot.chat(msg,my.id,my.name,channel)
 		try{ data = JSON.parse(msg); }catch(e){ data = { error: 400 }; }
 		if(Cluster.isWorker) process.send({ type: "tail-report", id: my.id, chan: channel, place: my.place, msg: data.error ? msg : data });
 		

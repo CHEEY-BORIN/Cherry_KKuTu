@@ -18,7 +18,7 @@
 
 (function(){
 	var $stage;
-	var LIMIT = 400;
+	var LIMIT = 100;
 	var LIST;
 
 	$(document).ready(function(){
@@ -38,7 +38,7 @@
 			var i, j;
 
 			if($("#account-info").html() === L['LOGIN']){
-				return $("#server-0").trigger('click');
+				return $("#server-4").trigger('click');
 			}
 			for(i=0.9; i<1; i+=0.01){
 				for(j in LIST){

@@ -17,6 +17,7 @@
  */
 
 var WebSocket = require('ws');
+var Bot = require("./bot")
 var File = require('fs');
 var Const = require("../const");
 var https = require('https');
@@ -100,6 +101,7 @@ process.on('message', function(msg){
 });
 MainDB.ready = function(){
 	JLog.success("DB is ready.");
+	Bot.dbready();
 	KKuTu.init(MainDB, DIC, ROOM, GUEST_PERMISSION);
 };
 Server.on('connection', function(socket, info){

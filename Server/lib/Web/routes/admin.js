@@ -93,9 +93,8 @@ Server.get("/gwalli/kkutudb/:word", function(req, res){
 	if(!checkAdmin(req, res)) return;
 	
 	var TABLE = MainDB.kkutu[req.query.lang];
-	
-	if(!TABLE) res.sendStatus(400);
-	if(!TABLE.findOne) res.sendStatus(400);
+	if(!TABLE) return res.sendStatus(400);
+	if(!TABLE.findOne) return res.sendStatus(400);
 	TABLE.findOne([ '_id', req.params.word ]).on(function($doc){
 		res.send($doc);
 	});
@@ -105,8 +104,8 @@ Server.get("/gwalli/kkututheme", function(req, res){
 	
 	var TABLE = MainDB.kkutu[req.query.lang];
 	
-	if(!TABLE) res.sendStatus(400);
-	if(!TABLE.find) res.sendStatus(400);
+	if(!TABLE) return res.sendStatus(400);
+	if(!TABLE.find) return res.sendStatus(400);
 	TABLE.find([ 'theme', new RegExp(req.query.theme) ]).limit([ '_id', true ]).on(function($docs){
 		res.send({ list: $docs.map(v => v._id) });
 	});
@@ -169,8 +168,8 @@ function onKKuTuDB(req, res){
 	
 	if(list) list = list.split(/[,\r\n]+/);
 	else return res.sendStatus(400);
-	if(!TABLE) res.sendStatus(400);
-	if(!TABLE.insert) res.sendStatus(400);
+	if(!TABLE) return res.sendStatus(400);
+	if(!TABLE.insert) return res.sendStatus(400);
 	
 	noticeAdmin(req, theme, list.length);
 	list.forEach(function(item){
@@ -200,8 +199,8 @@ Server.post("/gwalli/kkutudb/:word", function(req, res){
 	var TABLE = MainDB.kkutu[req.body.lang];
 	var data = JSON.parse(req.body.data);
 	
-	if(!TABLE) res.sendStatus(400);
-	if(!TABLE.upsert) res.sendStatus(400);
+	if(!TABLE) return res.sendStatus(400);
+	if(!TABLE.upsert) return res.sendStatus(400);
 	
 	noticeAdmin(req, data._id);
 	if(data.mean == ""){

@@ -17,6 +17,7 @@
  */
 
 var spamWarning = 0;
+var Bot = require("../../../Game/bot");
 var spamCount = 0;
 // var smile = 94, tag = 35;
 
@@ -2669,7 +2670,7 @@ function forkChat(){
 	$stage.chat.scrollTop(999999999);
 }
 function badWords(text){
-	return text.replace(BAD, "♥♥");
+	return text.replace(BAD, "**");
 }
 function chatBalloon(text, id, flag){
 	$("#cb-" + id).remove();

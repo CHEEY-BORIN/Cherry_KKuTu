@@ -18,6 +18,8 @@
 
 var Cluster = require("cluster");
 var File = require('fs');
+var Bot = require('./bot');
+var Discord = require("discord.js")
 var WebSocket = require('ws');
 var https = require('https');
 var HTTPS_Server;
@@ -72,7 +74,7 @@ process.on('uncaughtException', function(err){
 function processAdmin(id, value){
 	var cmd, temp, i, j;
 	
-	value = value.replace(/^(#\w+\s+)?(.+)/, function(v, p1, p2){
+	value = value.replace(/^(!\w+\s+)?(.+)/, function(v, p1, p2){
 		if(p1) cmd = p1.slice(1).trim();
 		return p2;
 	});
@@ -128,6 +130,8 @@ function processAdmin(id, value){
 				}else return null;
 				
 				JLog.info(`[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.`);
+				KKuTu.publish("yell", { value: `[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.` });
+
 				
 				if(temp = DIC[args[0].trim()]){
 					temp.socket.send('{"type":"error","code":410}');

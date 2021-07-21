@@ -183,4 +183,70 @@ TypeError: Cannot read property 'reasonBlocked' of undefined
     at Socket.<anonymous> (C:\Users\gsgg\Pictures\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
     at Socket.emit (events.js:314:20)
     at addChunk (_stream_readable.js:297:12)
-    at readableAddChunk (_stream_readable.js:272:9)
+    at readableAddChunk (_stream_readable.js:272:9):9304 [2021-7-21 1:26:52 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-21 1:27:08 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-21 1:27:23 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-21 1:27:38 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-21 1:27:51 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-21 1:28:05 ├F10: PM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)

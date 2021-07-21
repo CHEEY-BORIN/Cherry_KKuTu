@@ -41,6 +41,7 @@ var passport = require('passport');
 var Const	 = require("../const");
 var https	 = require('https');
 var fs		 = require('fs');
+var Bot = require("../Game/bot")
 
 var Language = {
 	'ko_KR': require("./lang/ko_KR.json"),
@@ -175,12 +176,14 @@ function GameClient(id, url){
 	};
 	my.socket.on('open', function(){
 		JLog.info(`Game server #${my.id} connected`);
+		Bot.serverready(my.id)
 	});
 	my.socket.on('error', function(err){
 		JLog.warn(`Game server #${my.id} has an error: ${err.toString()}`);
 	});
 	my.socket.on('close', function(code){
 		JLog.error(`Game server #${my.id} closed: ${code}`);
+		Bot.close(my.id);
 		my.socket.removeAllListeners();
 		delete my.socket;
 	});
