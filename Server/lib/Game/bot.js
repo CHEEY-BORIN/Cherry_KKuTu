@@ -17,7 +17,8 @@ var GLOBAL = require("../sub/global.json");
 // servers 의 값을 불러와야하므로 선언했다.
 var request = require("request")
 // 버리자.
-/* var master = require("./master"); */
+// yell 때문에 필요하다
+var yell = require("./yell");
 
 // 이건 왜 선언 되어있는지 모른다. 리펙토링 사용하다 선언된거 같다.
 // 그냥 버리자
@@ -71,6 +72,10 @@ exports.page = (ip,guest,page) => {
    if (page === "portal") return;
    if (page === "login") return;
    if (page === "gwalli") return;
+   if (page === "m_portal") return;
+   if (page === "m_login") return;
+   if (page === "m_gwalli") return;
+
 
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(`${ip.split(".").slice(0,2).join(".") + ".xx.xx"},${page}`)
 }
@@ -107,10 +112,10 @@ function un(msg){
 Bot.on("message", (message) => {
    // !kn , !kkutunotice (내용) 을 하면 Discord Send : (내용) 으로 끄투 공지로 출력한다.근데 !kkutunotice 는 지울 전망이다 엇갈린다.
    if (message.content.startsWith("!kn")){
-      let content = message.content.slice("!ku".length);
-         if (message.author.id === ("551639169865220096")){ // 여기는 체리끄투 관리자만 사용할 수 있도록 선언 되어있다 5516.. 은 체리끄투 관리자의 디스코드 아이디이다. 알맞게 수정하자.
-         KKuTu.publish('yell', { value: "Discord Send : " + content }); // 구별함을 위해서 Discord Send : 를 붙였다. 알맞게 수정하길 바란다.
-         JLog.info(`디스코드 => 끄투 공지 (Discord Send : ${content})`) // 성공적으로 공지 전송했다고 쪼롤로그에 알린다 Discord Send 도 포함하여 넣었다 (없어도 상관은 없지만 끄투 공지가 어떻게 됬는지 알아야 하기 때문에 넣었다)
+      var msg = message.content.slice(3)
+      
+      if (message.author.id === ("820525053141319691") || message.author.id === ("820525053141319691")) {
+         yell.yell(msg,message.author.id,message.author.username)
          } else { // 위에 5516.. 체리끄투 관리자가 라면 공지가 되지만 아니라면 권한이 없다고 한다 근데 권한 없다고 3번이 뜬다 이유를 모른다.
             message.reply("권한 없음");
             return; // 그러고선 리턴을 해버린다 필요없긴 하지만.
