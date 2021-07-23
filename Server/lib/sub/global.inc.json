@@ -29,7 +29,10 @@
 		"BLOCKED_FOREVER": "영구 이용제한"
 	},
 	"BOT_SETTING": {
-		"BOT_TOKEN": "your bot token here",
-		"SETTING_CHANNEL": "your setting channels id here"
+		"BOT_TOKEN": "token",
+		"ip_Channel": "channel id",
+		"SETTING_CHANNEL": "channel id here",
+		"notice_Channel": "channel id here",
+		"un_Channel": "channel id here"
 	}
 }
