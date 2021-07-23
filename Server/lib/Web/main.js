@@ -30,6 +30,7 @@ var Parser	 = require("body-parser");
 var DDDoS	 = require("dddos");
 var Server	 = Express();
 var DB		 = require("./db");
+var ping = [];
 //볕뉘 수정 구문삭제 (28)
 var JLog	 = require("../sub/jjlog");
 var WebInit	 = require("../sub/webinit");
@@ -261,11 +262,10 @@ Server.get("/", function(req, res){
 
 Server.get("/servers", function(req, res){
 	var list = [];
-
 	gameServers.forEach(function(v, i){
 		list[i] = v.seek;
 	});
-	res.send({ list: list, max: Const.KKUTU_MAX });
+	res.send({ list: list, max: Const.KKUTU_MAX});
 });
 
 //볕뉘 수정 구문 삭제(274~353)

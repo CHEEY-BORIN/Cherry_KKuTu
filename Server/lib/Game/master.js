@@ -71,7 +71,7 @@ process.on('uncaughtException', function(err){
 		console.log(text);
 	});
 });
-function processAdmin(id, value){
+function processAdmin(id, value, name){
 	var cmd, temp, i, j;
 	
 	value = value.replace(/^(!\w+\s+)?(.+)/, function(v, p1, p2){
@@ -81,7 +81,11 @@ function processAdmin(id, value){
 	switch(cmd){
 		case "yell":
 			KKuTu.publish('yell', { value: value });
+			Bot.notice(value, id, name)
 			return null;
+		case "un":
+			KKuTu.publish('yell', { value: "환율 변경 : " + value + "/핑"});
+			Bot.un(value);
 		case "kill":
 			if(temp = DIC[value]){
 				temp.socket.send('{"type":"error","code":410}');
@@ -227,7 +231,7 @@ Cluster.on('message', function(worker, msg){
 	
 	switch(msg.type){
 		case "admin":
-			if(DIC[msg.id] && DIC[msg.id].admin) processAdmin(msg.id, msg.value);
+			if(DIC[msg.id] && DIC[msg.id].admin) processAdmin(msg.id, msg.value, msg.name);
 			break;
 		case "tail-report":
 			if(temp = T_ROOM[msg.place]){
