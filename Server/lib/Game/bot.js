@@ -11,14 +11,13 @@ var Discord = require("discord.js");
 // 리턴시 jlog 로 출력하기 위함이다
 var JLog = require("../sub/jjlog")
 // !kn 시 끄투 공지를 출력해야하므로 KKuTu 를 선언했다.
-var KKuTu = require('./kkutu');
 // 채널 ID 를 불러와야 하므로 선언했다.
 var GLOBAL = require("../sub/global.json");
 // servers 의 값을 불러와야하므로 선언했다.
 var request = require("request")
 // 버리자.
 // yell 때문에 필요하다
-var yell = require("./yell");
+var yell = require("./load");
 
 // 이건 왜 선언 되어있는지 모른다. 리펙토링 사용하다 선언된거 같다.
 // 그냥 버리자
@@ -114,8 +113,8 @@ Bot.on("message", (message) => {
    if (message.content.startsWith("!kn")){
       var msg = message.content.slice(3)
       
-      if (message.author.id === ("820525053141319691") || message.author.id === ("820525053141319691")) {
-         yell.yell(msg,message.author.id,message.author.username)
+      if (message.author.id === ("820525053141319691") || message.author.id === ("551639169865220096")) {
+         yell.yell(msg,message.author.id,message.author.username) // 처리 방법 변경함.
          } else { // 위에 5516.. 체리끄투 관리자가 라면 공지가 되지만 아니라면 권한이 없다고 한다 근데 권한 없다고 3번이 뜬다 이유를 모른다.
             message.reply("권한 없음");
             return; // 그러고선 리턴을 해버린다 필요없긴 하지만.
@@ -123,7 +122,7 @@ Bot.on("message", (message) => {
       }
       // err,res 는 사용되지 않은 선언문이지만 지우지 말자 (그러면 body 안됨 )모듈상으로 .ㅠ
    if (message.content.startsWith("!list") || message.content.startsWith("!kkutulist")){ 
-      request.get({ url : "http://cherrykkutu.kro.kr/servers"}, function(error,res,body){ // error,res 는 지우지 말자 왜냐하면 모듈상으로 error,res,body 순이기 때문에 지워버리면 err 로 인식해버린다.
+      request.get({ url : "http://cherry.or-kr.ml/servers"}, function(error,res,body){ // error,res 는 지우지 말자 왜냐하면 모듈상으로 error,res,body 순이기 때문에 지워버리면 err 로 인식해버린다.
          message.channel.send(`**${body}**`) // 그러고선 채널에 전송한다 (3번씩이나.)
    })
 }
