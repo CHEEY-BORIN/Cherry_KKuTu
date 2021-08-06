@@ -20,11 +20,12 @@ var File = require('fs');
 
 const LIST = [
 	"global",
-	
+
 	"in_login",
 	"in_game_kkutu",
 	"in_game_kkutu_help",
-	"in_admin",
+	"in_user_admin",
+	"in_word_admin",
 	"in_portal",
 	"in_loginfail"
 ];
@@ -45,12 +46,12 @@ const KKUTU_LIST = [
 module.exports = function(grunt){
 	var i, files = {}, cons = {};
 	var KKUTU = "Web/public/js/in_game_kkutu.min.js";
-	
+
 	for(i in LIST){
 		files["Web/public/js/"+LIST[i]+".min.js"] = "Web/lib/"+LIST[i]+".js";
 	}
 	files[KKUTU] = KKUTU_LIST;
-	
+
 	grunt.initConfig({
 		uglify: {
 			options: {
@@ -69,12 +70,12 @@ module.exports = function(grunt){
 	});
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
-	
+
 	grunt.registerTask('default', ['concat', 'uglify']);
 	grunt.registerTask('pack', 'Log', function(){
 		var done = this.async();
 		var url = __dirname + "/" + KKUTU;
-		
+
 		File.readFile(url, function(err, res){
 			File.writeFile(url, "(function(){" + res.toString() + "})();", function(err, res){
 				done();

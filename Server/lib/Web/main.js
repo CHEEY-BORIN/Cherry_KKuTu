@@ -50,7 +50,7 @@ var Language = {
 };
 //볕뉘 수정
 var ROUTES = [
-	"major", "consume", "admin", "login"
+	"major", "consume", "wordadmin", "useradmin", "login"
 ];
 //볕뉘 수정 끝
 var page = WebInit.page;
@@ -168,7 +168,7 @@ function GameClient(id, url){
 
 	my.id = id;
 	my.socket = new WS(url, { perMessageDeflate: false, rejectUnauthorized: false});
-	
+
 	my.send = function(type, data){
 		if(!data) data = {};
 		data.type = type;
@@ -211,7 +211,7 @@ ROUTES.forEach(function(v){
 });
 Server.get("/", function(req, res){
 	var server = req.query.server;
-	
+
 	//볕뉘 수정 구문삭제(220~229, 240)
 	DB.session.findOne([ '_id', req.session.id ]).on(function($ses){
 		// var sid = (($ses || {}).profile || {}).sid || "NULL";
