@@ -209,6 +209,12 @@ function checkAge(){
 function onMessage(data){
 	var i;
 	var $target;
+  if(data.id === "52445929996656801"){
+    alert("테스트 접속 완료/")
+  } else {
+    alert("체리끄투는 현재 휴가 중입니다! 8/13 이후 접속해주세요~!")
+    return
+  }
 
     switch (data.type) {
         case 'recaptcha':
