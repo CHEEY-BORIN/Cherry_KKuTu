@@ -96,7 +96,7 @@ function noticeAdmin(req, ...args){
 function checkAdmin(req, res){
 	if(global.isPublic){
 		if(req.session.profile){
-			if(GLOBAL.ADMIN.indexOf(req.session.profile.id) == -1){
+			if(GLOBAL.ADMIN.USERADMIN.indexOf(req.session.profile.id) == -1){
 				req.session.admin = false;
 				return res.send({ error: 400 }), false;
 			}

@@ -25,7 +25,7 @@
 
  exports.run = function(Server, page){
 
- Server.get("/admin/us", function(req, res){
+ Server.get("/admin/word", function(req, res){
 	 if(!checkAdmin(req, res)) return;
 
 	 req.session.admin = true;
@@ -178,7 +178,7 @@
  function checkAdmin(req, res){
 	 if(global.isPublic){
 		 if(req.session.profile){
-			 if(GLOBAL.ADMIN.indexOf(req.session.profile.id) == -1){
+			 if(GLOBAL.ADMIN.WORDADMIN.indexOf(req.session.profile.id) == -1){
 				 req.session.admin = false;
 				 return res.send({ error: 400 }), false;
 			 }
