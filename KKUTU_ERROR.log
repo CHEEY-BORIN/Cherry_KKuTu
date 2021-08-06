@@ -403,4 +403,24 @@ TypeError: Bot.dbready is not a function
     at Object.onceWrapper (events.js:421:26)
     at Connection.emit (events.js:326:22)
     at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
-    at Socket.emit (events.js:314:20)
+    at Socket.emit (events.js:314:20):9304 [2021-8-6 11:59:06 ├F10: AM┤] ERROR: ReferenceError: body is not defined
+ReferenceError: body is not defined
+    at Request._callback (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\bot.js:222:28)
+    at self.callback (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:314:20)
+    at Request.start (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:753:10)
+    at Request.end (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:1505:10)
+    at end (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:564:14)
+    at Immediate.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:578:7)
+    at processImmediate (internal/timers.js:461:21):9304 [2021-8-6 12:12:12 ├F10: PM┤] ERROR: ReferenceError: body is not defined
+ReferenceError: body is not defined
+    at Request._callback (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\bot.js:194:10)
+    at Request.self.callback (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:314:20)
+    at Request.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:1154:10)
+    at Request.emit (events.js:314:20)
+    at IncomingMessage.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\request\request.js:1076:12)
+    at Object.onceWrapper (events.js:420:28)
+    at IncomingMessage.emit (events.js:326:22)
+    at endReadableNT (_stream_readable.js:1241:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)

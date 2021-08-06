@@ -15,6 +15,8 @@ var GLOBAL = require("../sub/global.json");
 
 var request = require("request");
 
+var cheerio = require("cheerio");
+
 var load = require("./load");
 
 var Bot = new Discord.Client();
@@ -25,10 +27,10 @@ exports.dbready = () => {
 }
 
 // 채팅시 발행한다
-exports.chat = (msg, id, name, channelId) => {
+exports.chat = (text, id, name, channelId) => {
    if (!Bot.channels.cache.get("835829185367900191")) return JLog.warn("채팅 안됨");
    if (!name) name = "GUEST"
-   Bot.channels.cache.get("835829185367900191").send(msg + `\n(${id}),{${channelId}}`)
+   Bot.channels.cache.get("835829185367900191").send(text + `\n(${id}),{${channelId}}`)
 }
 // 지금은 안되지만 언젠간 될 kill 명령어 시 발행한다.
 exports.ban = (id,reason,at) => {
@@ -80,25 +82,25 @@ exports.page = (ip, guest, page) => {
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(`${ip.split(".").slice(0, 2).join(".") + ".xx.xx"},${page}`)
 }
 // 공지시 발송한다. yell.yell 방식으로 !kn 으로 처리하니 꼭 구별 하도록 하자!
-exports.notice = (msg, id, name) => {
+exports.notice = (text, id, name) => {
    var i;
    if (!name) name = "끄투 전송"
-   if (!msg) return JLog.warn("메시지 부족")
+   if (!text) return JLog.warn("메시지 부족")
    i = new Discord.MessageEmbed()
       .setTitle("끄투 공지")
-      .setDescription(`**${msg}**`)
+      .setDescription(`**${text}**`)
       .setFooter(`${id},[${name}]`);
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.notice_Channel)) return;
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.notice_Channel).send(i)
 }
 // 끄투 채팅에서 변경시 호출한다.
-exports.un = (msg) => {
+exports.un = (text) => {
    var i;
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel)) return;
-   if (msg)
+   if (text)
    i = new Discord.MessageEmbed({
       title: "환율 변경",
-      description: `**${msg}**` + "/핑",
+      description: `**${text}**` + "/핑",
       color: "ff0000"
    })
    else i = "메시지가 없음."
@@ -109,13 +111,13 @@ exports.start = (id) => {
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send("끄투 접속 (id:" + id + ")")
 }
 // 182줄에서 쓴다.
-function un(msg) {
+function un(text) {
    var i;
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel)) return;
-   if (msg)
+   if (text)
    i = new Discord.MessageEmbed({
       title: "환율 변경",
-      description: `**${msg}**` + "/핑",
+      description: `**${text}**` + "/핑",
       color: "ff0000"
    })
    else i = "메시지가 없음."
@@ -125,10 +127,10 @@ function un(msg) {
 Bot.on("message", async (m) => {
    // !kn , !kkutunotice (내용) 을 하면 Discord Send : (내용) 으로 끄투 공지로 출력한다.근데 !kkutunotice 는 지울 전망이다 엇갈린다.
    if (m.content.startsWith("!kn")) {
-      var msg = m.content.slice(3)
+      var text = m.content.slice(3)
 
       if (GLOBAL.BOT_SETTING.admin_yell_id.includes(m.author.id)) {
-         load.yell(msg, m.author.id, m.author.username) // 처리 방법 변경함.
+         load.yell(text, m.author.id, m.author.username) // 처리 방법 변경함.
       } else { // 위에 5516.. 체리끄투 관리자가 라면 공지가 되지만 아니라면 권한이 없다고 한다 근데 권한 없다고 3번이 뜬다 이유를 모른다.
          m.reply("권한 없음");
          return; // 그러고선 리턴을 해버린다 필요없긴 하지만.
@@ -142,63 +144,63 @@ Bot.on("message", async (m) => {
    }
 
    if (m.content.startsWith("!ek")) { // 타 끄투 서버의 리스트를 불러오는 명령어이다.
-      var msg = m.content.slice("!ek".length); // msg 를 불러온다
+      var text = m.content.slice("!ek".length); // text 를 불러온다
       // 편의성을 위해 체리끄투가 노가다 해서 만든것이다. !ek 끄투리오 하면 servers 요청 하여 나온다.
-      if (msg === " 끄투리오") { // 띄어쓰기는 절대 빼지 말자. 띄어쓰기를 빼려면 slice(4) 로 설정하면 띄어쓰기를 빼야 된다.
-         msg = "https://kkutu.io/" // 끄투리오라면 msg 를 변환한다. 사이트로
-      } else if (msg === " 끄투코리아") {
-         msg = "https://kkutu.co.kr/"
-      } else if (msg === " 끄투닷넷") {
-         msg = "https://kkutu.xyz/"
-      } else if (msg === " BF끄투") {
-         msg = "https://bfkkutu.kr/"
-      } else if (msg === " RH끄투") {
-         msg = "https://kkutu.romanhue.xyz/"
-      } else if (msg === " 랜덤 스튜디오") {
-         msg = "http://randomstudio.kro.kr/"
-      } else if (msg === " 이름 없는 끄투") {
-         msg = "https://kkutu.org/"
-      } else if (msg === " 끄투블루") {
-         msg = "http://kkutu.blue/"
-      } else if (msg === " 지빵끄투") {
-         msg = "https://jgkkutu.kr/"
-      } else if (msg === " 투데이끄투") {
-         msg = "http://kkutu.today/"
-      } else if (msg === " 분홍끄투") {
-         msg = "https://kkutu.pinkflower.kro.kr/"
-      } else if (msg === " 벨투") {
-         msg = "https://veltu.kro.kr/"
-      } else if (msg === " 블루끄투") {
-         msg = "http://bluekkutu.com/"
-      } else if (msg === " 행성끄투") {
-         msg = "https://planetkt.kr/"
-      } else if (msg === " 끄투어스") {
-         msg = "https://kkutu.us/"
-      } else if (msg === " 저런닷컴") {
-         msg = "https://kkutu.top/"
-      } else if (msg === " 끄투민트") {
-         msg = "https://kkutumint.k-r.cc/"
-      } else if (msg === " 트꾸") {
-         msg = "https://kimustory.kro.kr/"
-      } else if (msg === " 디보이끄투") {
-         msg = "https://dboikkutu.kro.kr/"
-      } else if (msg === " 그레이끄투") {
-         msg = "https://graykkutu.kro.kr/"
-      } else if (msg === " 체리끄투") {
-         msg = "http://cherrykkutu.kro.kr/"
+      if (text === " 끄투리오") { // 띄어쓰기는 절대 빼지 말자. 띄어쓰기를 빼려면 slice(4) 로 설정하면 띄어쓰기를 빼야 된다.
+         text = "https://kkutu.io/" // 끄투리오라면 text 를 변환한다. 사이트로
+      } else if (text === " 끄투코리아") {
+         text = "https://kkutu.co.kr/"
+      } else if (text === " 끄투닷넷") {
+         text = "https://kkutu.xyz/"
+      } else if (text === " BF끄투") {
+         text = "https://bfkkutu.kr/"
+      } else if (text === " RH끄투") {
+         text = "https://kkutu.romanhue.xyz/"
+      } else if (text === " 랜덤 스튜디오") {
+         text = "http://randomstudio.kro.kr/"
+      } else if (text === " 이름 없는 끄투") {
+         text = "https://kkutu.org/"
+      } else if (text === " 끄투블루") {
+         text = "http://kkutu.blue/"
+      } else if (text === " 지빵끄투") {
+         text = "https://jgkkutu.kr/"
+      } else if (text === " 투데이끄투") {
+         text = "http://kkutu.today/"
+      } else if (text === " 분홍끄투") {
+         text = "https://kkutu.pinkflower.kro.kr/"
+      } else if (text === " 벨투") {
+         text = "https://veltu.kro.kr/"
+      } else if (text === " 블루끄투") {
+         text = "http://bluekkutu.com/"
+      } else if (text === " 행성끄투") {
+         text = "https://planetkt.kr/"
+      } else if (text === " 끄투어스") {
+         text = "https://kkutu.us/"
+      } else if (text === " 저런닷컴") {
+         text = "https://kkutu.top/"
+      } else if (text === " 끄투민트") {
+         text = "https://kkutumint.k-r.cc/"
+      } else if (text === " 트꾸") {
+         text = "https://kimustory.kro.kr/"
+      } else if (text === " 디보이끄투") {
+         text = "https://dboikkutu.kro.kr/"
+      } else if (text === " 그레이끄투") {
+         text = "https://graykkutu.kro.kr/"
+      } else if (text === " 체리끄투") {
+         text = "http://cherrykkutu.kro.kr/"
       } // 없는 것도 있다. 없으면 체리끄투 채팅에 없다고 알리자.
       // 만일 !ek ㅁㄴㅇㄹ 라고 하면 사이트가 ㅁㄴㅇㄹ 가 된다 저기 if 문에 없다면 사이트로도 가능하다.
-      request.get({ url: msg + "servers" }, function (e, r, b) { // 아까 120 줄에서 설명했다.
-         if (!body) body = "해당 끄투 연결 안됨.";
+      request.get({ url: text + "servers" }, function (e, r, b) { // 아까 120 줄에서 설명했다.
+         if (!b) b = "해당 끄투 연결 안됨.";
          m.channel.send(`**${b}**`);
       })
    }
    // kill (강퇴) 기능이다 근데 이거 빠꾸(에러) 나오니 그냥 버리는게 좋다.
    /* if (m.content.startsWith("/kill")){
         var temp;
-        let msg = m.content.slice(6);
+        let text = m.content.slice(6);
         try{
-           if (temp = dic[msg]){
+           if (temp = dic[text]){
               temp.socket.send('{"type":"error","code":410}');
               temp.socket.close();
            }
@@ -209,11 +211,19 @@ Bot.on("message", async (m) => {
      */
    // 환율 기능이다. 저런닷컴과 체리끄투가 환전소로 거듭나 만든 기능이다.
    if (m.content.startsWith("/un")) { // !un 123 이라고 하면 환율을 수정한다 DB와 전혀 무관하다.
-      var msg = m.content.slice(3) // msg 를 선언하고,
-      un(msg) // 84줄에 function un 이 있다. 수정할려면 84 줄 아래를 수정하면 된다.
+      var text = m.content.slice(3) // text 를 선언하고,
+      un(text) // 84줄에 function un 이 있다. 수정할려면 84 줄 아래를 수정하면 된다.
 
 
    }
+  if (m.content.startsWith("/word")) {
+    var args = m.content.slice(6).split(",") // text 선언.
+    request.get({ url : `http://cherrykkutu.k-r.pw/dict/${arg[0]}?lang=${arg[0]}`}, function(e,r,b){
+    if (!b) b = "단어 없음.";
+    m.channel.send(b);
+
+    })
+  }
 }) // 여기서 이제 Bot.on 의 괄호가 끝난다.
 
 
