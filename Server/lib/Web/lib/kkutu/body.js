@@ -1,17 +1,17 @@
 /**
  * Rule the words! KKuTu Online
  * Copyright (C) 2017 JJoriping(op@jjo.kr)
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,14 +25,14 @@ function zeroPadding(num, len){ var s = num.toString(); return "000000000000000"
 function send(type, data, toMaster){
 	var i, r = { type: type };
 	var subj = toMaster ? ws : (rws || ws);
-	
+
 	for(i in data) r[i] = data[i];
-	
+
 	/*if($data._talkValue == r.value){
 		if(++$data._sameTalk >= 3) return fail();
 	}else $data._sameTalk = 0;
 	$data._talkValue = r.value;*/
-	
+
 	if(type != "test") if(spamCount++ > 10){
 		if(++spamWarning >= 3) return subj.close();
 		spamCount = 5;
@@ -49,7 +49,7 @@ function loading(text){
 }
 function showDialog($d, noToggle){
 	var size = [ $(window).width(), $(window).height() ];
-	
+
 	if(!noToggle && $d.is(":visible")){
 		$d.hide();
 		return false;
@@ -64,10 +64,10 @@ function showDialog($d, noToggle){
 }
 function applyOptions(opt){
 	$data.opts = opt;
-	
+
 	$data.muteBGM = $data.opts.mb;
 	$data.muteEff = $data.opts.me;
-	
+
 	$("#mute-bgm").attr('checked', $data.muteBGM);
 	$("#mute-effect").attr('checked', $data.muteEff);
 	$("#deny-invite").attr('checked', $data.opts.di);
@@ -77,7 +77,7 @@ function applyOptions(opt){
 	$("#sort-user").attr('checked', $data.opts.su);
 	$("#only-waiting").attr('checked', $data.opts.ow);
 	$("#only-unlock").attr('checked', $data.opts.ou);
-	
+
 	if($data.bgm){
 		if($data.muteBGM){
 			$data.bgm.volume = 0;
@@ -91,7 +91,7 @@ function applyOptions(opt){
 function checkInput(){
 	/*var v = $stage.talk.val();
 	var len = v.length;
-	
+
 	if($data.room) if($data.room.gaming){
 		if(len - $data._kd.length > 3) $stage.talk.val($data._kd);
 		if($stage.talk.is(':focus')){
@@ -104,13 +104,13 @@ function checkInput(){
 }
 function addInterval(cb, v, a1, a2, a3, a4, a5){
 	var R = _setInterval(cb, v, a1, a2, a3, a4, a5);
-	
+
 	$data._timers.push(R);
 	return R;
 }
 function addTimeout(cb, v, a1, a2, a3, a4, a5){
 	var R = _setTimeout(cb, v, a1, a2, a3, a4, a5);
-	
+
 	$data._timers.push(R);
 	return R;
 }
@@ -120,7 +120,7 @@ function clearTrespasses(){ return; // 일단 비활성화
 	var xEnd = _setTimeout(checkInput, 1);
 	var rem = 0;
 	var i;
-	
+
 	for(i in $.timers){
 		jt.push($.timers[i].id);
 	}
@@ -141,7 +141,7 @@ function clearTrespasses(){ return; // 일단 비활성화
 function route(func, a0, a1, a2, a3, a4){
 	if(!$data.room) return;
 	var r = RULE[MODE[$data.room.mode]];
-	
+
 	if(!r) return null;
 	$lib[r.rule][func].call(this, a0, a1, a2, a3, a4);
 }
@@ -149,10 +149,10 @@ function connectToRoom(chan, rid){
 	var url = $data.URL.replace(/:(\d+)/, function(v, p1){
 		return ":" + (Number(p1) + 416 + Number(chan) - 1);
 	}) + "&" + chan + "&" + rid;
-	
+
 	if(rws) return;
 	rws = new _WebSocket(url);
-	
+
 	loading(L['connectToRoom'] + "\n<center><button id='ctr-close'>" + L['ctrCancel'] + "</button></center>");
 	$("#ctr-close").on('click', function(){
 		loading();
@@ -172,13 +172,13 @@ function connectToRoom(chan, rid){
 }
 function checkAge(){
 	if(!confirm(L['checkAgeAsk'])) return send('caj', { answer: "no" }, true);
-	
+
 	while(true){
 		var input = [], lv = 1;
-		
+
 		while(lv <= 3){
 			var str = prompt(L['checkAgeInput' + lv]);
-			
+
 			if(!str || isNaN(str = Number(str))){
 				if(--lv < 1) break; else continue;
 			}
@@ -237,7 +237,10 @@ function onMessage(data){
 			$data._playTime = data.playTime;
 			$data._okg = data.okg;
 			$data._gaming = false;
+			$data.nickname = data.nickname;
+			$data.exordial = data.exordial;
 			$data.box = data.box;
+			$data.nickLimit = data.nickLimit;
 			if(data.test) alert(L['welcomeTestServer']);
 			if(location.hash[1]) tryJoin(location.hash.slice(1));
 			updateUI(undefined, true);
@@ -262,14 +265,14 @@ function onMessage(data){
 			$stage.dialog.quick.hide();
 			$data.setUser(data.user.id, data.user);
 			$target = $data.usersR[data.user.id] = data.user;
-			
+
 			if($target.id == $data.id) loading();
 			else notice(($target.profile.title || $target.profile.name) + L['hasJoined']);
 			updateUserList();
 			break;
 		case 'disconnRoom':
 			$target = $data.usersR[data.id];
-			
+
 			if($target){
 				delete $data.usersR[data.id];
 				notice(($target.profile.title || $target.profile.name) + L['hasLeft']);
@@ -315,6 +318,20 @@ function onMessage(data){
 		case 'user':
 			$data.setUser(data.id, data);
 			if($data.room) updateUI($data.room.id == data.place);
+			break;
+		case 'reloadData':
+			$data.id = data.id;
+			$data.admin = data.admin;
+			if(!$data._gaming) $data.users = data.users;
+			$data.rooms = data.rooms;
+			$data.friends = data.friends;
+			$data._playTime = data.playTime;
+			$data._okg = data.okg;
+			$data.nickname = data.nickname;
+			$data.exordial = data.exordial;
+			$data.box = data.box;
+			updateUI(undefined, true);
+			updateCommunity();
 			break;
 		case 'friends':
 			$data._friends = {};
@@ -498,21 +515,21 @@ function onMessage(data){
 				}
 			/* Enhanced User Block System [S] */
 				if(!data.blockedUntil) break;
-				
+
 				var blockedUntil = new Date(parseInt(data.blockedUntil));
 				var block = "\n제한 시점: " + blockedUntil.getFullYear() + "년 " + blockedUntil.getMonth() + 1 + "월 " +
 				blockedUntil.getDate() + "일 " + blockedUntil.getHours() + "시 " + blockedUntil.getMinutes() + "분까지";
-				
+
 				alert("[#444] " + L['error_444'] + i + block);
 				break;
 			}else if(data.code == 446){
 				i = data.reasonBlocked;
 				if(!data.ipBlockedUntil) break;
-				
+
 				var blockedUntil = new Date(parseInt(data.ipBlockedUntil));
 				var block = "\n제한 시점: " + blockedUntil.getFullYear() + "년 " + blockedUntil.getMonth() + 1 + "월 " +
 				blockedUntil.getDate() + "일 " + blockedUntil.getHours() + "시 " + blockedUntil.getMinutes() + "분까지";
-				
+
 				alert("[#446] " + L['error_446'] + i + block);
 				break;
 			/* Enhanced User Block System [E] */
@@ -538,8 +555,10 @@ function welcome(){
 	addTimeout(function(){
 		$("#Intro").hide();
 	}, 2000);
-	
+
 	if($data.admin) console.log("관리자 모드");
+
+	isWelcome = true;
 }
 function getKickText(profile, vote){
 	var vv = L['agree'] + " " + vote.Y + ", " + L['disagree'] + " " + vote.N + L['kickCon'];
@@ -559,9 +578,10 @@ function runCommand(cmd){
 		'/ㄷㄷ': L['cmd_ee'],
 		'/무시': L['cmd_wb'],
 		'/차단': L['cmd_shut'],
-		'/id': L['cmd_id']
+		'/id': L['cmd_id'],
+		'/nt': L['cmd_notnamechat']
 	};
-	
+
 	switch(cmd[0].toLowerCase()){
 		case "/ㄱ":
 		case "/r":
@@ -648,13 +668,13 @@ function toggleShutBlock(target){
 function tryDict(text, callback){
 	var text = text.replace(/[^\sa-zA-Zㄱ-ㅎ0-9가-힣]/g, "");
 	var lang = text.match(/[ㄱ-ㅎ가-힣]/) ? 'ko' : 'en';
-	
+
 	if(text.length < 1) return callback({ error: 404 });
 	$.get("/dict/" + text + "?lang=" + lang, callback);
 }
 function processRoom(data){
 	var i, j, key, o;
-	
+
 	data.myRoom = ($data.place == data.room.id) || (data.target == $data.id);
 	if(data.myRoom){
 		$target = $data.users[data.target];
@@ -769,7 +789,7 @@ function updateUI(myRoom, refresh){
 */
 	var only = getOnly();
 	var i;
-	
+
 	if($data._replay){
 		if(myRoom === undefined || myRoom){
 			replayStop();
@@ -778,13 +798,13 @@ function updateUI(myRoom, refresh){
 	if($data._replay) return;
 	if(only == "for-gaming" && !myRoom) return;
 	if($data.practicing) only = "for-gaming";
-	
+
 	$(".kkutu-menu button").hide();
 	for(i in $stage.box) $stage.box[i].hide();
 	$stage.box.me.show();
 	$stage.box.chat.show().width(790).height(190);
 	$stage.chat.height(120);
-	
+
 	if(only == "for-lobby"){
 		$data._ar_first = true;
 		$stage.box.userList.show();
@@ -846,12 +866,12 @@ function animModified(cls){
 function checkRoom(modify){
 	if(!$data._players) return;
 	if(!$data.room) return;
-	
+
 	var OBJ = {} + '';
 	var i, arr = $data._players.split(',');
 	var lb = arr.length, la = $data.room.players.length;
 	var u;
-	
+
 	for(i in arr){
 		if(arr[i] == OBJ) lb--;
 	}
@@ -895,7 +915,7 @@ function updateMe(){
 	var lv = getLevel(my.data.score);
 	var prev = EXP[lv-2] || 0;
 	var goal = EXP[lv-1];
-	
+
 	for(i in my.data.record) gw += my.data.record[i][1];
 	renderMoremi(".my-image", my.equip);
 	// $(".my-image").css('background-image', "url('"+my.profile.image+"')");
@@ -913,7 +933,7 @@ function prettyTime(time){
 	var min = Math.floor(time / 60000) % 60, sec = Math.floor(time * 0.001) % 60;
 	var hour = Math.floor(time / 3600000);
 	var txt = [];
-	
+
 	if(hour) txt.push(hour + L['HOURS']);
 	if(min) txt.push(min + L['MINUTE']);
 	if(!hour) txt.push(sec + L['SECOND']);
@@ -923,7 +943,7 @@ function updateUserList(refresh){
 	var $bar;
 	var i, o, len = 0;
 	var arr;
-	
+
 	// refresh = true;
 	// if(!$stage.box.userList.is(':visible')) return;
 	if($data.opts.su){
@@ -936,21 +956,21 @@ function updateUserList(refresh){
 		refresh = true;
 	}else{
 		arr = $data.users;
-		
+
 		for(i in $data.users) len++;
 	}
 	$stage.lobby.userListTitle.html("<i class='fa fa-users'></i>"
 		+ "&lt;<b>" + L['server_' + $data.server] + "</b>&gt; "
 		+ L['UserList'].replace("FA{users}", "")
 		+ " [" + len + L['MN'] + "]");
-	
+
 	if(refresh){
 		$stage.lobby.userList.empty();
 		$stage.dialog.inviteList.empty();
 		for(i in arr){
 			o = arr[i];
 			if(o.robot) continue;
-			
+
 			$stage.lobby.userList.append(userListBar(o));
 			if(o.place == 0) $stage.dialog.inviteList.append(userListBar(o, true));
 		}
@@ -958,7 +978,7 @@ function updateUserList(refresh){
 }
 function userListBar(o, forInvite){
 	var $R;
-	
+
 	if(forInvite){
 		$R = $("<div>").attr('id', "invite-item-"+o.id).addClass("invite-item users-item")
 		.append($("<div>").addClass("jt-image users-image").css('background-image', "url('"+o.profile.image+"')"))
@@ -979,7 +999,7 @@ function userListBar(o, forInvite){
 		});
 	}
 	addonNickname($R, o);
-	
+
 	return $R;
 }
 function addonNickname($R, o){
@@ -989,7 +1009,7 @@ function addonNickname($R, o){
 function updateRoomList(refresh){
 	var i;
 	var len = 0;
-	
+
 	if(!refresh){
 		$(".rooms-create").remove();
 		for(i in $data.rooms) len++;
@@ -1001,7 +1021,7 @@ function updateRoomList(refresh){
 		}
 	}
 	$stage.lobby.roomListTitle.html(L['RoomList'].replace("FA{bars}", "<i class='fa fa-bars'></i>") + " [" + len + L['GAE'] + "]");
-	
+
 	if(len){
 		$(".rooms-gaming").css('display', $data.opts.ow ? "none" : "");
 		$(".rooms-locked").css('display', $data.opts.ou ? "none" : "");
@@ -1015,7 +1035,7 @@ function updateRoomList(refresh){
 function roomListBar(o){
 	var $R, $ch;
 	var opts = getOptions(o.mode, o.opts);
-	
+
 	$R = $("<div>").attr('id', "room-"+o.id).addClass("rooms-item")
 	.append($ch = $("<div>").addClass("rooms-channel channel-" + o.channel).on('click', function(e){ requestRoomInfo(o.id); }))
 	.append($("<div>").addClass("rooms-number").html(o.id))
@@ -1033,7 +1053,7 @@ function roomListBar(o){
 	});
 	if(o.gaming) $R.addClass("rooms-gaming");
 	if(o.password) $R.addClass("rooms-locked");
-	
+
 	return $R;
 }
 function normalGameUserBar(o){
@@ -1050,7 +1070,7 @@ function normalGameUserBar(o){
 	global.expl($R);
 	addonNickname($bar, o);
 	if(o.game.team) $n.addClass("team-" + o.game.team);
-	
+
 	return $R;
 }
 function miniGameUserBar(o){
@@ -1064,7 +1084,7 @@ function miniGameUserBar(o){
 	if(o.id == $data.id) $bar.addClass("game-user-my-name");
 	addonNickname($bar, o);
 	if(o.game.team) $n.addClass("team-" + o.game.team);
-	
+
 	return $R;
 }
 function getAIProfile(level){
@@ -1082,7 +1102,7 @@ function updateRoom(gaming){
 	var renderer = (mobile || rule.big) ? miniGameUserBar : normalGameUserBar;
 	var spec;
 	var arAcc = false, allReady = true;
-	
+
 	setRoomHead($(".RoomBox .product-title"), $data.room);
 	setRoomHead($(".GameBox .product-title"), $data.room);
 	if(gaming){
@@ -1110,10 +1130,10 @@ function updateRoom(gaming){
 		for(i in $data.room.players){
 			o = $data.users[$data.room.players[i]] || $data.room.players[i];
 			if(!o.game) continue;
-			
+
 			var prac = o.game.practice ? ('/' + L['stat_practice']) : '';
 			var spec = (o.game.form == "S") ? ('/' + L['stat_spectate']) : false;
-			
+
 			if(o.robot){
 				o.profile = getAIProfile(o.level);
 				$data.robots[o.id] = o;
@@ -1169,7 +1189,7 @@ function onMasterSubJamsu(){
 }
 function updateScore(id, score){
 	var i, o, t;
-	
+
 	if(o = $data["_s"+id]){
 		clearTimeout(o.timer);
 		o.$obj = $("#game-user-"+id+" .game-user-score");
@@ -1228,16 +1248,16 @@ function updateScore(id, score){
 }
 function animateScore(o){
 	var v = (o.goal - o.now) * Math.min(1, TICK * 0.01);
-	
+
 	if(v < 0.1) v = o.goal - o.now;
 	else o.timer = addTimeout(animateScore, TICK, o);
-	
+
 	o.now += v;
 	drawScore(o.$obj, Math.round(o.now));
 }
 function drawScore($obj, score){
 	var i, sc = (score > 99999) ? (zeroPadding(Math.round(score * 0.001), 4) + 'k') : zeroPadding(score, 5);
-	
+
 	$obj.empty();
 	for(i=0; i<sc.length; i++){
 		$obj.append($("<div>").addClass("game-user-score-char").html(sc[i]));
@@ -1246,9 +1266,10 @@ function drawScore($obj, score){
 function drawMyDress(avGroup){
 	var $view = $("#dress-view");
 	var my = $data.users[$data.id];
-	
+
 	renderMoremi($view, my.equip);
 	$(".dress-type.selected").removeClass("selected");
+	$("#dress-nickname").val(my.nickname);
 	$("#dress-type-all").addClass("selected");
 	$("#dress-exordial").val(my.exordial);
 	drawMyGoods(avGroup || true);
@@ -1259,7 +1280,7 @@ function renderGoods($target, preId, filter, equip, onClick){
 	var obj, q, g, equipped;
 	var isAll = filter === true;
 	var i;
-	
+
 	$target.empty();
 	if(!equip) equip = {};
 	for(i in equip){
@@ -1275,7 +1296,7 @@ function renderGoods($target, preId, filter, equip, onClick){
 		g = obj.group;
 		if(g.substr(0, 3) == "BDG") g = "BDG";
 		equipped = (g == "Mhand") ? (equip['Mlhand'] == list[i].key || equip['Mrhand'] == list[i].key) : (equip[g] == list[i].key);
-		
+
 		if(typeof q == "number") q = {
 			value: q
 		};
@@ -1294,17 +1315,17 @@ function drawMyGoods(avGroup){
 	var equip = $data.users[$data.id].equip || {};
 	var filter;
 	var isAll = avGroup === true;
-	
+
 	$data._avGroup = avGroup;
 	if(isAll) filter = true;
 	else filter = (avGroup || "").split(',');
-	
+
 	renderGoods($("#dress-goods"), 'dress', filter, equip, function(e){
 		var $target = $(e.currentTarget);
 		var id = $target.attr('id').slice(6);
 		var item = iGoods(id);
 		var isLeft;
-		
+
 		if(e.ctrlKey){
 			if($target.hasClass("dress-equipped")) return fail(426);
 			if(!confirm(L['surePayback'] + commify(Math.round((item.cost || 0) * 0.2)) + L['ping'])) return;
@@ -1313,7 +1334,7 @@ function drawMyGoods(avGroup){
 				alert(L['painback']);
 				$data.box = res.box;
 				$data.users[$data.id].money = res.money;
-				
+
 				drawMyDress($data._avGroup);
 				updateUI(false);
 			});
@@ -1331,7 +1352,7 @@ function drawMyGoods(avGroup){
 				$data.box = res.box;
 				$data.users[$data.id].data = res.data;
 				send('refresh');
-				
+
 				drawMyDress($data._avGroup);
 				updateMe();
 			});
@@ -1344,13 +1365,13 @@ function requestEquip(id, isLeft){
 	if(part == "Mhand") part = isLeft ? "Mlhand" : "Mrhand";
 	if(part.substr(0, 3) == "BDG") part = "BDG";
 	var already = my.equip[part] == id;
-	
+
 	if(confirm(L[already ? 'sureUnequip' : 'sureEquip'] + ": " + L[id][0])){
 		$.post("/equip/" + id, { isLeft: isLeft }, function(res){
 			if(res.error) return fail(res.error);
 			$data.box = res.box;
 			my.equip = res.equip;
-			
+
 			drawMyDress($data._avGroup);
 			send('refresh');
 			updateUI(false);
@@ -1363,19 +1384,19 @@ function drawCharFactory(){
 	var $rew = $("#cf-reward");
 	var $goods = $("#cf-goods");
 	var $cost = $("#cf-cost");
-	
+
 	$data._tray = [];
 	$dict.empty();
 	$rew.empty();
 	$cost.html("");
 	$stage.dialog.cfCompose.removeClass("cf-composable");
-	
+
 	renderGoods($goods, 'cf', [ 'PIX', 'PIY', 'PIZ' ], null, function(e){
 		var $target = $(e.currentTarget);
 		var id = $target.attr('id').slice(3);
 		var bd = $data.box[id];
 		var i, c = 0;
-		
+
 		if($data._tray.length >= 6) return fail(435);
 		for(i in $data._tray) if($data._tray[i] == id) c++;
 		if(bd - c > 0){
@@ -1392,7 +1413,7 @@ function drawCharFactory(){
 		var LEVEL = { 'WPC': 1, 'WPB': 2, 'WPA': 3 };
 		var gd, word = "";
 		var level = 0;
-		
+
 		$tray.empty();
 		$(".cf-tray-selected").removeClass("cf-tray-selected");
 		$data._tray.forEach(function(item){
@@ -1412,7 +1433,7 @@ function drawCharFactory(){
 		$cost.html("");
 		tryDict(word, function(res){
 			var blend = false;
-			
+
 			if(res.error){
 				if(word.length == 3){
 					blend = true;
@@ -1428,12 +1449,12 @@ function drawCharFactory(){
 	function viewReward(text, level, blend){
 		$.get("/cf/" + text + "?l=" + level + "&b=" + (blend ? "1" : ""), function(res){
 			if(res.error) return fail(res.error);
-			
+
 			$rew.empty();
 			res.data.forEach(function(item){
 				var bd = iGoods(item.key);
 				var rt = (item.rate >= 1) ? L['cfRewAlways'] : ((item.rate * 100).toFixed(1) + '%');
-				
+
 				$rew.append($("<div>").addClass("cf-rew-item")
 					.append($("<div>").addClass("jt-image cf-rew-image")
 						.css('background-image', "url(" + bd.image + ")")
@@ -1451,7 +1472,7 @@ function drawCharFactory(){
 	function onTrayClick(e){
 		var id = $(e.currentTarget).attr('id').slice(8);
 		var bi = $data._tray.indexOf(id);
-		
+
 		if(bi == -1) return;
 		$data._tray.splice(bi, 1);
 		drawCFTray();
@@ -1462,13 +1483,13 @@ function drawLeaderboard(data){
 	var $board = $stage.dialog.lbTable.empty();
 	var fr = data.data[0] ? data.data[0].rank : 0;
 	var page = (data.page || Math.floor(fr / 20)) + 1;
-	
+
 	data.data.forEach(function(item, index){
 		var profile = $data.users[item.id];
-		
+
 		if(profile) profile = profile.profile.title || profile.profile.name;
 		else profile = L['hidden'];
-		
+
 		item.score = Number(item.score);
 		$board.append($("<tr>").attr('id', "ranking-" + item.id)
 			.addClass("ranking-" + (item.rank + 1))
@@ -1491,14 +1512,14 @@ function drawLeaderboard(data){
 function updateCommunity(){
 	var i, o, p, memo;
 	var len = 0;
-	
+
 	$stage.dialog.commFriends.empty();
 	for(i in $data.friends){
 		len++;
 		memo = $data.friends[i];
 		o = $data._friends[i] || {};
 		p = ($data.users[i] || {}).profile;
-		
+
 		$stage.dialog.commFriends.append($("<div>").addClass("cf-item").attr('id', "cfi-" + i)
 			.append($("<div>").addClass("cfi-status cfi-stat-" + (o.server ? 'on' : 'off')))
 			.append($("<div>").addClass("cfi-server").html(o.server ? L['server_' + o.server] : "-"))
@@ -1514,14 +1535,14 @@ function updateCommunity(){
 		var id = $(e.currentTarget).parent().parent().attr('id').slice(4);
 		var _memo = $data.friends[id];
 		var memo = prompt(L['friendEditMemo'], _memo);
-		
+
 		if(!memo) return;
 		send('friendEdit', { id: id, memo: memo }, true);
 	}
 	function requestRemoveFriend(e){
 		var id = $(e.currentTarget).parent().parent().attr('id').slice(4);
 		var memo = $data.friends[id];
-		
+
 		if($data._friends[id].server) return fail(455);
 		if(!confirm(memo + "(#" + id.substr(0, 5) + ")\n" + L['friendSureRemove'])) return;
 		send('friendRemove', { id: id }, true);
@@ -1531,7 +1552,7 @@ function updateCommunity(){
 function requestRoomInfo(id){
 	var o = $data.rooms[id];
 	var $pls = $("#ri-players").empty();
-	
+
 	$data._roominfo = id;
 	$("#RoomInfoDiag .dialog-title").html(id + L['sRoomInfo']);
 	$("#ri-title").html((o.password ? "<i class='fa fa-lock'></i>&nbsp;" : "") + o.title);
@@ -1541,13 +1562,13 @@ function requestRoomInfo(id){
 	o.players.forEach(function(p, i){
 		var $p, $moremi;
 		var rd = o.readies[p] || {};
-		
+
 		p = $data.users[p] || NULL_USER;
 		if(o.players[i].robot){
 			p.profile = { title: L['robot'] };
 			p.equip = { robot: true };
 		}else rd.t = rd.t || 0;
-		
+
 		$pls.append($("<div>").addClass("ri-player")
 			.append($moremi = $("<div>").addClass("moremi rip-moremi"))
 			.append($p = $("<div>").addClass("ellipse rip-title").html(p.profile.title || p.profile.name))
@@ -1556,7 +1577,7 @@ function requestRoomInfo(id){
 		);
 		if(p.id == o.master) $p.prepend($("<label>").addClass("rip-master").html("[" + L['master'] + "]&nbsp;"));
 		$p.prepend(getLevelImage(p.data.score).addClass("profile-level rip-level"));
-		
+
 		renderMoremi($moremi, p.equip);
 	});
 	showDialog($stage.dialog.roomInfo);
@@ -1567,7 +1588,7 @@ function requestProfile(id){
 	var $rec = $("#profile-record").empty();
 	var $pi, $ex;
 	var i;
-	
+
 	if(!o){
 		notice(L['error_405']);
 		return;
@@ -1597,7 +1618,7 @@ function requestProfile(id){
 		$("#profile-place").html(o.place ? (o.place + L['roomNumber']) : L['lobby']);
 		for(i in o.data.record){
 			var r = o.data.record[i];
-			
+
 			$rec.append($("<div>").addClass("profile-record-field")
 				.append($("<div>").addClass("profile-field-name").html(L['mode' + i]))
 				.append($("<div>").addClass("profile-field-record").html(r[0] + L['P'] + " " + r[1] + L['W']))
@@ -1612,7 +1633,7 @@ function requestProfile(id){
 	$stage.dialog.profileDress.hide();
 	$stage.dialog.profileWhisper.hide();
 	$stage.dialog.profileHandover.hide();
-	
+
 	if($data.id == id) $stage.dialog.profileDress.show();
 	else if(!o.robot){
 		$stage.dialog.profileShut.show();
@@ -1630,7 +1651,7 @@ function requestProfile(id){
 }
 function requestInvite(id){
 	var nick;
-	
+
 	if(id != "AI"){
 		nick = $data.users[id].profile.title || $data.users[id].profile.name;
 		if(!confirm(nick + L['sureInvite'])) return;
@@ -1657,7 +1678,7 @@ function clearGame(){
 }
 function gameReady(){
 	var i, u;
-	
+
 	for(i in $data.room.players){
 		if($data._replay){
 			u = $rec.users[$data.room.players[i]] || $data.room.players[i];
@@ -1686,7 +1707,7 @@ function gameReady(){
 }
 function replayPrevInit(){
 	var i;
-	
+
 	for(i in $data.room.game.seq){
 		if($data.room.game.seq[i].robot){
 			$data.room.game.seq[i].game.score = 0;
@@ -1698,7 +1719,7 @@ function replayPrevInit(){
 		var rd = $rec.readies[id] || {};
 		var u = $data.users[id] || $data.robots[id];
 		var po = id;
-		
+
 		if($rec.players[i].robot){
 			u = $rec.users[id] = { robot: true };
 			po = $rec.players[i];
@@ -1717,7 +1738,7 @@ function replayPrevInit(){
 }
 function replayReady(){
 	var i;
-	
+
 	replayStop();
 	$data._replay = true;
 	$data.room = {
@@ -1761,13 +1782,13 @@ function replayPrev(e){
 	var ev = $data.room.events[--$data._rf];
 	var c;
 	var to;
-	
+
 	if(!ev) return;
 	c = ev.time;
 	do{
 		if(!(ev = $data.room.events[--$data._rf])) break;
 	}while(c - ev.time < 1000);
-	
+
 	to = $data._rf - 1;
 	replayPrevInit();
 	c = $data.muteEff;
@@ -1780,9 +1801,9 @@ function replayPrev(e){
 	replayTick();
 	/*var pev, ev = $data.room.events[--$data._rf];
 	var c;
-	
+
 	if(!ev) return;
-	
+
 	c = ev.time;
 	clearTimeout($data._rt);
 	do{
@@ -1807,7 +1828,7 @@ function replayPrev(e){
 }
 function replayPause(e){
 	var p = $data._rpause = !$data._rpause;
-	
+
 	$(e.target).html(p ? L['replayResume'] : L['replayPause']);
 }
 function replayNext(e){
@@ -1824,7 +1845,7 @@ function replayStatus(){
 function replayTick(stay){
 	var event = $data.room.events[$data._rf];
 	var args, i;
-	
+
 	clearTimeout($data._rt);
 	if(!stay) $data._rf++;
 	if(!event){
@@ -1838,9 +1859,9 @@ function replayTick(stay){
 	args = event.data;
 	if(args.hint) args.hint = { _id: args.hint };
 	if(args.type == 'chat') args.timestamp = $rec.time + event.time;
-	
+
 	onMessage(args);
-	
+
 	$data._eventTime = event.time;
 	replayStatus();
 	if($data.room.events.length > $data._rf) $data._rt = addTimeout(replayTick,
@@ -1858,7 +1879,7 @@ function replayStop(){
 }
 function startRecord(title){
 	var i, u;
-	
+
 	$rec = {
 		version: $data.version,
 		me: $data.id,
@@ -1876,7 +1897,7 @@ function startRecord(title){
 	};
 	for(i in $data.room.players){
 		var o;
-		
+
 		u = $data.users[$data.room.players[i]] || $data.room.players[i];
 		o = { id: u.id, score: 0 };
 		if(u.robot){
@@ -1909,7 +1930,7 @@ function recordEvent(data){
 	for(i in _data) data[i] = _data[i];
 	if(data.profile) data.profile = { id: data.profile.id, title: "#" + data.profile.id };
 	if(data.user) data.user = { id: data.user.profile.id, profile: { id: data.user.profile.id, title: "#" + data.user.profile.id }, data: { score: 0 }, equip: {} };
-	
+
 	$rec.events.push({
 		data: data,
 		time: (new Date()).getTime() - $rec.time
@@ -1937,7 +1958,7 @@ function clearBoard(){
 }
 function drawRound(round){
 	var i;
-	
+
 	$stage.game.round.empty();
 	for(i=0; i<$data.room.round; i++){
 		$stage.game.round.append($l = $("<label>").html($data.room.game.title[i]));
@@ -1971,7 +1992,7 @@ function addScore(id, score){
 function drawObtainedScore($uc, $sc){
 	$uc.append($sc);
 	addTimeout(function(){ $sc.remove(); }, 2000);
-	
+
 	return $uc;
 }
 function turnEnd(id, data){
@@ -1984,7 +2005,7 @@ function roundEnd(result, data){
 	var $o, $p;
 	var lvUp, sc;
 	var addit, addp;
-	
+
 	$(".result-me-expl").empty();
 	$stage.game.display.html(L['roundEnd']);
 	$data._resultPage = 1;
@@ -2001,10 +2022,10 @@ function roundEnd(result, data){
 		}
 		if(!o.data) continue;
 		if(!r.reward) continue;
-		
+
 		r.reward.score = $data._replay ? 0 : Math.round(r.reward.score);
 		lvUp = getLevel(sc = o.data.score) > getLevel(o.data.score - r.reward.score);
-		
+
 		$b.append($o = $("<div>").addClass("result-board-item")
 			.append($p = $("<div>").addClass("result-board-rank").html(r.rank + 1))
 			.append(getLevelImage(sc).addClass("result-board-level"))
@@ -2032,21 +2053,21 @@ function roundEnd(result, data){
 	if($data._result){
 		addit = $data._result.reward.score - $data._result.reward._score;
 		addp = $data._result.reward.money - $data._result.reward._money;
-		
+
 		$data._result._exp = $data._result.exp;
 		$data._result._score = $data._result.reward.score;
 		$data._result._bonus = addit;
 		$data._result._boing = $data._result.reward._score;
 		$data._result._addit = addit;
 		$data._result._addp = addp;
-		
+
 		if(addit > 0){
 			addit = "<label class='result-me-bonus'>(+" + commify(addit) + ")</label>";
 		}else addit = "";
 		if(addp > 0){
 			addp = "<label class='result-me-bonus'>(+" + commify(addp) + ")</label>";
 		}else addp = "";
-		
+
 		notice(L['scoreGain'] + ": " + commify($data._result.reward.score) + ", " + L['moneyGain'] + ": " + commify($data._result.reward.money));
 		$(".result-me").css('opacity', 1);
 		$(".result-me-score").html(L['scoreGain']+" +"+commify($data._result.reward.score)+addit);
@@ -2055,7 +2076,7 @@ function roundEnd(result, data){
 	function roundEndAnimation(first){
 		var v, nl;
 		var going;
-		
+
 		$data._result.goal = EXP[$data._result.level - 1];
 		$data._result.before = EXP[$data._result.level - 2] || 0;
 		/*if(first){
@@ -2064,7 +2085,7 @@ function roundEnd(result, data){
 		if($data._result.reward.score > 0){
 			v = $data._result.reward.score * $data._coef;
 			if(v < 0.05 && $data._coef) v = $data._result.reward.score;
-			
+
 			$data._result.reward.score -= v;
 			$data._result.exp += v;
 			nl = getLevel($data._result.exp);
@@ -2074,14 +2095,14 @@ function roundEnd(result, data){
 				playSound('lvup');
 			}
 			$data._result.level = nl;
-			
+
 			addTimeout(roundEndAnimation, 50);
 		}
 		going = $data._result.exp - $data._result._exp;
 		draw('before', $data._result._exp, $data._result.before, $data._result.goal);
 		draw('current', Math.min(going, $data._result._boing), 0, $data._result.goal - $data._result.before);
 		draw('bonus', Math.max(0, going - $data._result._boing), 0, $data._result.goal - $data._result.before);
-		
+
 		$(".result-me-level-body").html($data._result.level);
 		$(".result-me-score-text").html(commify(Math.round($data._result.exp)) + " / " + commify($data._result.goal));
 	}
@@ -2095,7 +2116,7 @@ function roundEnd(result, data){
 			.append($sb = $("<div>"))
 			.append($("<h4>").html(L['moneyGain']))
 			.append($mb = $("<div>"));
-		
+
 		row($sb, L['scoreOrigin'], orgX);
 		row($mb, L['moneyOrigin'], orgM);
 		list.forEach(function(item){
@@ -2104,13 +2125,13 @@ function roundEnd(result, data){
 			var target = item.slice(2, 5);
 			var value = Number(item.slice(5));
 			var $t, vtx, org;
-			
+
 			if(target == 'EXP') $t = $sb, org = orgX;
 			else if(target == 'MNY') $t = $mb, org = orgM;
-			
+
 			if(type == 'g') vtx = "+" + (org * value).toFixed(1);
 			else if(type == 'h') vtx = "+" + Math.floor(value);
-			
+
 			row($t, L['bonusFrom_' + from], vtx);
 		});
 		function row($t, h, b){
@@ -2133,7 +2154,7 @@ function drawRanking(ranks){
 	var $b = $(".result-board").empty();
 	var $o, $v;
 	var me;
-	
+
 	$data._resultPage = 2;
 	if(!ranks) return $stage.dialog.resultOK.trigger('click');
 	for(i in ranks.list){
@@ -2142,7 +2163,7 @@ function drawRanking(ranks){
 			profile: { title: L['hidden'] }
 		};
 		me = r.id == $data.id;
-		
+
 		$b.append($o = $("<div>").addClass("result-board-item")
 			.append($("<div>").addClass("result-board-rank").html(r.rank + 1))
 			.append(getLevelImage(r.score).addClass("result-board-level"))
@@ -2154,7 +2175,7 @@ function drawRanking(ranks){
 				.append($("<div>").html(ranks.prev - r.rank))
 			)
 		);
-		
+
 		if(me){
 			if(ranks.prev - r.rank <= 0) $v.hide();
 			$o.addClass("result-board-me");
@@ -2163,7 +2184,7 @@ function drawRanking(ranks){
 }
 function kickVoting(target){
 	var op = $data.users[target].profile;
-	
+
 	$("#kick-vote-text").html((op.title || op.name) + L['kickVoteText']);
 	$data.kickTime = 10;
 	$data._kickTime = 10;
@@ -2177,7 +2198,7 @@ function kickVoteTick(){
 }
 function loadShop(){
 	var $body = $("#shop-shelf");
-	
+
 	$body.html(L['LOADING']);
 	processShop(function(res){
 		$body.empty();
@@ -2189,7 +2210,7 @@ function loadShop(){
 		res.goods.sort(function(a, b){ return b.updatedAt - a.updatedAt; }).forEach(function(item, index, my){
 			if(item.cost < 0) return;
 			var url = iImage(false, item);
-			
+
 			$body.append($("<div>").attr('id', "goods_" + item._id).addClass("goods")
 				.append($("<div>").addClass("jt-image goods-image").css('background-image', "url(" + url + ")"))
 				.append($("<div>").addClass("goods-title").html(iName(item._id)))
@@ -2206,7 +2227,7 @@ function filterShop(by){
 	var isAll = by === true;
 	var $o, obj;
 	var i;
-	
+
 	if(!isAll) by = by.split(',');
 	for(i in $data.shop){
 		obj = $data.shop[i];
@@ -2224,17 +2245,17 @@ function explainGoods(item, equipped, expire){
 		.append($("<div>").addClass("dress-item-expl").html(iDesc(item._id)));
 	var $opts = $("<div>").addClass("dress-item-opts");
 	var txt;
-	
+
 	if(item.term) $R.append($("<div>").addClass("dress-item-term").html(Math.floor(item.term / 86400) + L['DATE'] + " " + L['ITEM_TERM']));
 	if(expire) $R.append($("<div>").addClass("dress-item-term").html((new Date(expire * 1000)).toLocaleString() + L['ITEM_TERMED']));
 	for(i in item.options){
 		if(i == "gif") continue;
 		var k = i.charAt(0);
-		
+
 		txt = item.options[i];
 		if(k == 'g') txt = "+" + (txt * 100).toFixed(1) + "%p";
 		else if(k == 'h') txt = "+" + txt;
-		
+
 		$opts.append($("<label>").addClass("item-opts-head").html(L['OPTS_' + i]))
 			.append($("<label>").addClass("item-opts-body").html(txt))
 			.append($("<br>"));
@@ -2244,7 +2265,7 @@ function explainGoods(item, equipped, expire){
 }
 function processShop(callback){
 	var i;
-	
+
 	$.get("/shop", function(res){
 		$data.shop = {};
 		for(i in res.goods){
@@ -2262,7 +2283,7 @@ function onGoods(e){
 	var $oj;
 	var spt = L['surePurchase'];
 	var i, ceq = {};
-	
+
 	if($data.box) if($data.box[id]) spt = L['alreadyGot'] + " " + spt;
 	showDialog($stage.dialog.purchase, true);
 	$("#purchase-ping-before").html(commify(ping) + L['ping']);
@@ -2272,9 +2293,9 @@ function onGoods(e){
 	$("#purchase-item-desc").html((after < 0) ? L['notEnoughMoney'] : spt);
 	for(i in my.equip) ceq[i] = my.equip[i];
 	ceq[($obj.group == "Mhand") ? [ "Mlhand", "Mrhand" ][Math.floor(Math.random() * 2)] : $obj.group] = id;
-	
+
 	renderMoremi("#moremi-after", ceq);
-	
+
 	$data._sgood = id;
 	$stage.dialog.purchaseOK.attr('disabled', after < 0);
 	if(after < 0){
@@ -2285,7 +2306,7 @@ function onGoods(e){
 }
 function vibrate(level){
 	if(level < 1) return;
-	
+
 	$("#Middle").css('padding-top', level);
 	addTimeout(function(){
 		$("#Middle").css('padding-top', 0);
@@ -2303,7 +2324,7 @@ function pushDisplay(text, mean, theme, wc){
 	var $l;
 	var tick = $data.turnTime / 96;
 	var sg = $data.turnTime / 12;
-	
+
 	$stage.game.display.empty();
 	if(beat){
 		ta = 'As' + $data._speed;
@@ -2315,11 +2336,11 @@ function pushDisplay(text, mean, theme, wc){
 		vibrate(len);
 	}
 	kkt = 'K'+$data._speed;
-	
+
 	if(beat){
 		for(i in beat){
 			if(beat[i] == "0") continue;
-			
+
 			$stage.game.display.append($l = $("<div>")
 				.addClass("display-text")
 				.css({ 'float': isRev ? "right" : "left", 'margin-top': -6, 'font-size': 36 })
@@ -2329,7 +2350,7 @@ function pushDisplay(text, mean, theme, wc){
 			j++;
 			addTimeout(function($l, snd){
 				var anim = { 'margin-top': 0 };
-				
+
 				playSound(snd);
 				if($l.html() == $data.mission){
 					playSound('mission');
@@ -2389,7 +2410,7 @@ function pushDisplay(text, mean, theme, wc){
 function pushHint(hint){
 	var v = processWord("", hint);
 	var $obj;
-	
+
 	$stage.game.hints.append(
 		$obj = $("<div>").addClass("hint-item")
 			.append($("<label>").html(v))
@@ -2402,7 +2423,7 @@ function pushHistory(text, mean, theme, wc){
 	var $v, $w, $x;
 	var wcs = wc ? wc.split(',') : [], wd = {};
 	var val;
-	
+
 	$stage.game.history.prepend($v = $("<div>")
 		.addClass("ellipse history-item")
 		.width(0)
@@ -2416,7 +2437,7 @@ function pushHistory(text, mean, theme, wc){
 	val = processWord(text, mean, theme, wcs);
 	/*val = mean;
 	if(theme) val = "<label class='history-theme-c'>&lt;" + theme + "&gt;</label> " + val;*/
-	
+
 	wcs.forEach(function(item){
 		if(wd[item]) return;
 		if(!L['class_'+item]) return;
@@ -2447,27 +2468,27 @@ function processWord(word, _mean, _theme, _wcs){
 		return L['theme_' + _t];
 	}) : [];
 	var ms = means.length > 1;
-	
+
 	means.forEach(function(m1, x1){
 		var $m1 = $("<label>").addClass("word-m1");
 		var m1s = m1.length > 1;
-		
+
 		if(ms) $m1.append($("<label>").addClass("word-head word-m1-head").html(x1 + 1));
 		m1.forEach(function(m2, x2){
 			var $m2 = $("<label>").addClass("word-m2");
 			var m2l = m2.length;
 			var m2s = m2l > 1;
 			var tl = themes.splice(0, m2l);
-			
+
 			if(m1s) $m2.append($("<label>").addClass("word-head word-m2-head").html(x2 + 1));
 			m2.forEach(function(m3, x3){
 				var $m3 = $("<label>").addClass("word-m3");
 				var _t = tl.shift();
-				
+
 				if(m2s) $m3.append($("<label>").addClass("word-head word-m3-head").html(x3 + 1));
 				if(_t) $m3.append($("<label>").addClass("word-theme").html(_t));
 				$m3.append($("<label>").addClass("word-m3-body").html(formMean(m3)));
-				
+
 				$m2.append($m3);
 			});
 			$m1.append($m2);
@@ -2481,7 +2502,7 @@ function processWord(word, _mean, _theme, _wcs){
 				.replace(/_\{([^\}]+)\}/g, "<sub>$1</sub>")
 				.replace(/\\geq/g, "≥")
 			;
-			
+
 			return "<equ>" + txt + "</equ>";
 		})
 		.replace(/\*\*([^\*]+)\*\*/g, "<sup>$1</sup>")
@@ -2491,9 +2512,9 @@ function processWord(word, _mean, _theme, _wcs){
 }
 function getCharText(char, subChar, wordLength){
 	var res = char + (subChar ? ("("+subChar+")") : "");
-	
+
 	if(wordLength) res += "<label class='jjo-display-word-length'>(" + wordLength + ")</label>";
-	
+
 	return res;
 }
 function getRequiredScore(lv){
@@ -2505,7 +2526,7 @@ function getRequiredScore(lv){
 }
 function getLevel(score){
 	var i, l = EXP.length;
-	
+
 	for(i=0; i<l; i++) if(score < EXP[i]) break;
 	return i+1;
 }
@@ -2513,7 +2534,7 @@ function getLevelImage(score){
 	var lv = getLevel(score) - 1;
 	var lX = (lv % 25) * -100;
 	var lY = Math.floor(lv * 0.04) * -100;
-	
+
 	// return getImage("/img/kkutu/lv/lv" + zeroPadding(lv+1, 4) + ".png");
 	return $("<div>").css({
 		'float': "left",
@@ -2528,20 +2549,20 @@ function getImage(url){
 function getOptions(mode, opts, hash){
 	var R = [ L["mode"+MODE[mode]] ];
 	var i, k;
-	
+
 	for(i in OPTIONS){
 		k = OPTIONS[i].name.toLowerCase();
 		if(opts[k]) R.push(L['opt' + OPTIONS[i].name]);
 	}
 	if(hash) R.push(opts.injpick.join('|'));
-	
+
 	return hash ? R.toString() : R;
 }
 function setRoomHead($obj, room){
 	var opts = getOptions(room.mode, room.opts);
 	var rule = RULE[MODE[room.mode]];
 	var $rm;
-	
+
 	$obj.empty()
 		.append($("<h5>").addClass("room-head-number").html("["+(room.practice ? L['practice'] : room.id)+"]"))
 		.append($("<h5>").addClass("room-head-title").text(badWords(room.title)))
@@ -2549,7 +2570,7 @@ function setRoomHead($obj, room){
 		.append($("<h5>").addClass("room-head-limit").html((mobile ? "" : (L['players'] + " ")) + room.players.length + " / " +room.limit))
 		.append($("<h5>").addClass("room-head-round").html(L['rounds'] + " " + room.round))
 		.append($("<h5>").addClass("room-head-time").html(room.time + L['SECOND']));
-		
+
 	if(rule.opts.indexOf("ijp") != -1){
 		$rm.append($("<div>").addClass("expl").html("<h5>" + room.opts.injpick.map(function(item){
 			return L["theme_" + item];
@@ -2559,14 +2580,14 @@ function setRoomHead($obj, room){
 }
 function loadSounds(list, callback){
 	$data._lsRemain = list.length;
-	
+
 	list.forEach(function(v){
 		getAudio(v.key, v.value, callback);
 	});
 }
 function getAudio(k, url, cb){
 	var req = new XMLHttpRequest();
-	
+
 	req.open("GET", /*($data.PUBLIC ? "http://jjo.kr" : "") +*/ url);
 	req.responseType = "arraybuffer";
 	req.onload = function(e){
@@ -2586,7 +2607,7 @@ function getAudio(k, url, cb){
 	}
 	function AudioSound(url){
 		var my = this;
-		
+
 		this.audio = new Audio(url);
 		this.audio.load();
 		this.start = function(){
@@ -2601,7 +2622,7 @@ function getAudio(k, url, cb){
 }
 function playBGM(key, force){
 	if($data.bgm) $data.bgm.stop();
-	
+
 	return $data.bgm = playSound(key, true);
 }
 function stopBGM(){
@@ -2613,7 +2634,7 @@ function stopBGM(){
 function playSound(key, loop){
 	var src, sound;
 	var mute = (loop && $data.muteBGM) || (!loop && $data.muteEff);
-	
+
 	sound = $sound[key] || $sound.missing;
 	if(window.hasOwnProperty("AudioBuffer") && sound instanceof AudioBuffer){
 		src = audioContext.createBufferSource();
@@ -2639,17 +2660,17 @@ function playSound(key, loop){
 	sound.loop = loop || false;
 	sound.volume = ((loop && $data.muteBGM) || (!loop && $data.muteEff)) ? 0 : 1;
 	sound.play();*/
-	
+
 	return src;
 }
 function stopAllSounds(){
 	var i;
-	
+
 	for(i in $_sound) $_sound[i].stop();
 }
 function tryJoin(id){
 	var pw;
-	
+
 	if(!$data.rooms[id]) return;
 	if($data.rooms[id].password){
 		pw = prompt(L['putPassword']);
@@ -2664,7 +2685,7 @@ function clearChat(){
 function forkChat(){
 	var $cs = $("#Chat,#chat-log-board");
 	var lh = $cs.children(".chat-item").last().get(0);
-	
+
 	if(lh) if(lh.tagName == "HR") return;
 	$cs.append($("<hr>").addClass("chat-item"));
 	$stage.chat.scrollTop(999999999);
@@ -2681,7 +2702,7 @@ function chatBalloon(text, id, flag){
 		.append($("<div>").addClass("jt-image " + img))
 		[(flag == 2) ? 'prepend' : 'append']($("<h4>").text(text));
 	var ot, ol;
-	
+
 	if(!offset) return;
 	$stage.balloons.append($obj);
 	if(flag == 1) ot = 0, ol = 220;
@@ -2698,7 +2719,7 @@ function chat(profile, msg, from, timestamp){
 	var equip = $data.users[profile.id] ? $data.users[profile.id].equip : {};
 	var $bar, $msg, $item;
 	var link;
-	
+
 	if($data._shut[profile.title || profile.name]) return;
 	if(from){
 		if($data.opts.dw) return;
@@ -2722,7 +2743,7 @@ function chat(profile, msg, from, timestamp){
 	});
 	$stage.chatLog.append($item = $item.clone());
 	$item.append($("<div>").addClass("expl").css('font-weight', "normal").html("#" + (profile.id || "").substr(0, 5)));
-	
+
 	if(link = msg.match(/https?:\/\/[\w\.\?\/&#%=-_\+]+/g)){
 		msg = $msg.html();
 		link.forEach(function(item){
@@ -2739,7 +2760,7 @@ function chat(profile, msg, from, timestamp){
 }
 function notice(msg, head){
 	var time = new Date();
-	
+
 	playSound('k');
 	stackChat();
 	$("#Chat,#chat-log-board").append($("<div>").addClass("chat-item chat-notice")
@@ -2753,7 +2774,7 @@ function notice(msg, head){
 function stackChat(){
 	var $v = $("#Chat .chat-item");
 	var $w = $("#chat-log-board .chat-item");
-	
+
 	if($v.length > 99){
 		$v.first().remove();
 	}
@@ -2763,7 +2784,7 @@ function stackChat(){
 }
 function iGoods(key){
 	var obj;
-	
+
 	if(key.charAt() == "$"){
 		obj = $data.shop[key.slice(0, 4)];
 	}else{
@@ -2791,7 +2812,7 @@ function iDesc(key){
 function iImage(key, sObj){
 	var obj;
 	var gif;
-	
+
 	if(key){
 		if(key.charAt() == "$"){
 			return iDynImage(key.slice(1, 4), key.slice(4));
@@ -2808,7 +2829,7 @@ function iDynImage(group, data){
 	var canvas = document.createElement("canvas");
 	var ctx = canvas.getContext('2d');
 	var i;
-	
+
 	canvas.width = canvas.height = 50;
 	ctx.font = "24px NBGothic";
 	ctx.textAlign = "center";
@@ -2846,11 +2867,11 @@ function renderMoremi(target, equip){
 	var $obj = $(target).empty();
 	var LR = { 'Mlhand': "Mhand", 'Mrhand': "Mhand" };
 	var i, key;
-	
+
 	if(!equip) equip = {};
 	for(i in MOREMI_PART){
 		key = 'M' + MOREMI_PART[i];
-		
+
 		$obj.append($("<img>")
 			.addClass("moremies moremi-" + key.slice(1))
 			.attr('src', iImage(equip[key], LR[key] || key))
@@ -2872,12 +2893,12 @@ function renderMoremi(target, equip){
 }
 function commify(val){
 	var tester = /(^[+-]?\d+)(\d{3})/;
-	
+
 	if(val === null) return "?";
-	
+
 	val = val.toString();
 	while(tester.test(val)) val = val.replace(tester, "$1,$2");
-	
+
 	return val;
 }
 function setLocation(place){

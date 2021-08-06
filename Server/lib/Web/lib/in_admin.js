@@ -1,30 +1,30 @@
 /**
  * Rule the words! KKuTu Online
  * Copyright (C) 2017 JJoriping(op@jjo.kr)
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 (function(){
 	var WIDTH = { 'y': 50, 't': 50, 'g': 100, 'l': 200, 'm': 600 };
 	var $temp = {};
-	
+	var KKuTu = require("../../Game/kkutu")
+
 	$(document).ready(function(){
 	// 끄투 DB에 단어 추가하기
 		$("#db-ok").on('click', function(e){
 			var forView = $("#db-theme").val().charAt() == "~";
-			
+
 			if(forView){
 				$("#db-list").val("");
 				$.get("/gwalli/kkututheme?theme=" + $("#db-theme").val().slice(1) + "&lang=" + $("#db-lang").val(), function(res){
@@ -41,13 +41,13 @@
 				});
 			}
 		});
-	
+
 	// 어인정 신청
 		$("#injeong-go").on('click', function(e){
 			$.get("/gwalli/injeong", function(res){
 				var $table = $("#injeong-data").empty();
 				var $r;
-				
+
 				res.list.forEach(function(item){
 					$table.append($r = $("<tr>").attr('id', ['ir', item._id.replace(/ /g, "-")].join('-')));
 					$r
@@ -68,10 +68,10 @@
 		});
 		$("#injeong-apply").on('click', function(e){
 			var list = [];
-			
+
 			$("#injeong-data tr:visible").each(function(i, o){
 				var $data = $(o).find("td>input");
-				
+
 				list.push({
 					_origin: o.id.slice(3).replace(/-/g, " "),
 					_id: $data.get(1).value,
@@ -83,13 +83,13 @@
 				alert(res);
 			});
 		});
-	
+
 	// 상점 DB 다루기
 		$("#shop-go").on('click', function(e){
 			$.get("/gwalli/shop/" + $("#shop-word").val(), function(res){
 				var $table = $("#shop-data").empty();
 				var i, $r;
-				
+
 				res.goods.forEach(function(item){
 					$table.append($r = $("<tr>").attr('id', ['gu', item._id].join('-')));
 					$r
@@ -107,7 +107,7 @@
 				});
 				res.desc.forEach(function(item){
 					var id = item._id.replace("$", "\\$");
-					
+
 					for(i in item){
 						if(i == "_id") continue;
 						$("#si-" + id + "-" + i).val(item[i]);
@@ -120,7 +120,7 @@
 		});
 		$("#shop-add").on('click', function(e){
 			var nid = prompt("식별자");
-			
+
 			if(!nid) return;
 			$("#shop-data").append($("<tr>").attr('id', "gu-" + nid)
 				.addClass("gu-new")
@@ -139,10 +139,10 @@
 		});
 		$("#shop-apply").on('click', function(e){
 			var list = [];
-			
+
 			$("#shop-data tr:visible").each(function(i, o){
 				var $data = $(o).find("td>input");
-				
+
 				list.push({
 					_id: $data.get(0).value,
 					core: {
@@ -173,7 +173,7 @@
 			$.get("/gwalli/users?id=" + $("#user-id").val() + "&name=" + $("#user-nick").val(), function(res){
 				var $table = $("#user-data").empty();
 				var $r;
-				
+
 				res.list.forEach(function(item){
 					$table.append($r = $("<tr>").attr('id', ['ur', item._id].join('-')));
 					$r
@@ -182,6 +182,8 @@
 						.append($("<td>").append(putter("ud-" + item._id + "-kkutu", 'l', JSON.stringify(item.kkutu || {}))))
 						.append($("<td>").append(putter("ud-" + item._id + "-box", 'l', JSON.stringify(item.box || {}))))
 						.append($("<td>").append(putter("ud-" + item._id + "-equip", 'l', JSON.stringify(item.equip || {}))))
+						.append($("<td>").append(putter("ud-" + item._id + "-nickname", 'g', item.nickname)))
+						.append($("<td>").append(putter("ud-" + item._id + "-nickChanged", 'g', item.nickChanged)))
 						.append($("<td>").append(putter("ud-" + item._id + "-exordial", 'g', item.exordial)))
 						.append($("<td>").append(putter("ud-" + item._id + "-server", 't', item.server)))
 						.append($("<td>").append(putter("ud-" + item._id + "-lastLogin", 't', item.lastLogin)))
@@ -195,24 +197,25 @@
 		});
 		$("#user-apply").on('click', function(e){
 			var list = [];
-			
+
 			$("#user-data tr:visible").each(function(i, o){
 				var $data = $(o).find("td>input");
-				
+
 				list.push({
 					_id: $data.get(0).value,
 					money: $data.get(1).value,
 					kkutu: $data.get(2).value,
 					box: $data.get(3).value,
 					equip: $data.get(4).value,
-					exordial: $data.get(5).value,
-					server: $data.get(6).value,
-					lastLogin: $data.get(7).value,
-					black: $data.get(8).value,
+					nickname: $data.get(5).value,
+					nickChanged: $data.get(6).value,
+					exordial: $data.get(7).value,
+					server: $data.get(8).value,
+					lastLogin: $data.get(9).value,
+					black: $data.get(10).value,
 					/* Enhanced User Block System [S] */
-					blockedUntil: $data.get(9).value,
-					friends: $data.get(10).value
-					/* Enhanced User Block System [E] */
+					blockedUntil: $data.get(11).value,
+					friends: $data.get(12).value
 				});
 			});
 			$.post("/gwalli/users", {
@@ -222,26 +225,26 @@
 				alert(res);
 			});
 		});
-	
+	$("#")
 	// 유저 감시하기
 		$("#gamsi-go").on('click', function(e){
 			clearInterval($temp._gamsi);
-			
+
 			var $data = $("#gamsi-data").empty();
 			var list = $("#gamsi-id").val().split(/,\s*/);
 			var i, len = list.length;
-			
+
 			for(i in list){
 				$data.append($("<tr>").attr('id', "gamsi-" + list[i]).html("<td>(" + list[i] + ") 감시 시작</td>"));
 				onGamsi();
 			}
 			i = 0;
 			$temp._gamsi = setInterval(onGamsi, 10000);
-			
+
 			function onGamsi(){
 				var cid = list[i];
 				var $obj = $("#gamsi-" + cid);
-				
+
 				$.get("/gwalli/gamsi?id=" + cid, function(res){
 					if(!res) return $obj.html("(없는 사용자)" + cid);
 					$obj.html([ res._id, res.title || "-", "<a target='_blank' href='/?server=" + res.server + "'>" + res.server + "</a>" ].map(function(v){ return "<td>" + v + "</td>"; }));
@@ -249,7 +252,10 @@
 				i = (i + 1) % len;
 			}
 		});
-	
+		// 끄투 공지 발송
+	$("#kkutu-notice-ok").on('click', function(e){
+	   KKuTu.publish("yell", {value : $("#kkutu-notice-text").val()});
+	})
 	// 끄투 DB 다루기
 		$("#db-go").on('click', function(e){
 			$.get("/gwalli/kkutudb/" + $("#db-word").val() + "?lang=" + $("#db-lang").val(), function(res){
@@ -261,13 +267,13 @@
 						return m2.split(/（[0-9]+）/).slice(1);
 					});
 				}) : [[[]]];
-				
+
 				$("#wd-flag").val(res.flag);
 				means.forEach(function(m1, x1){
 					m1.forEach(function(m2, x2){
 						var type = types.shift();
 						var theme;
-						
+
 						m2.forEach(function(m3, x3){
 							theme = themes.shift();
 							$table.append($("<tr>").attr('id', ['wr', x1, x2, x3].join('-'))
@@ -284,7 +290,7 @@
 		});
 		$("#word-add").on('click', function(e){
 			var key = prompt('key (-로 구분)');
-			
+
 			if(!key) return;
 			key = key.split('-');
 			$("#wd-data").append($("<tr>").attr('id', ['wr', key[0], key[1], key[2]].join('-'))
@@ -302,7 +308,7 @@
 				type: [], theme: [], mean: []
 			};
 			var pvt = false;
-			
+
 			$("#wd-data tr").each(function(i, o){
 				var $o = $(o);
 				var key = $o.children("td").first().html().split('-');
@@ -331,7 +337,7 @@
 				}).join('');
 				else return "＂" + (x1 + 1) + "＂" + m1;
 			}).join('');
-			
+
 			$.post("/gwalli/kkutudb/" + $("#db-word").val(), {
 				pw: $("#db-password").val(),
 				lang: $("#db-lang").val(),
@@ -340,14 +346,14 @@
 				alert(res);
 			});
 		});
-	
+
 	// 끄투에서의 인기 단어
 		$("#kpw-query").on('click', function(e){
 			var FIELD = [ "한국어 종합", "한국어 최근", "한국어 3글자", "한국어 어인정", "영어 종합" ];
-			
+
 			$.get("/gwalli/kkutuhot", function(res){
 				var $table = $("#kpw-table").empty();
-				
+
 				res.data.splice(1, 0, getDeltaRank(res.prev, res.data[0]));
 				FIELD.forEach(function(item, index){
 					$table.append($("<div>")
@@ -365,12 +371,12 @@
 			function getTable(prev, data){
 				var $R = $("<table>");
 				var pr = 0, ph;
-				
+
 				data.forEach(function(item, index){
 					if(index >= 30) return;
 					var pd = prev[item._id] || 0;
 					var rank = (item.hit == ph) ? pr : index;
-					
+
 					pd = item.hit - pd;
 					item.delta = pd ? ("(+" + pd + ")") : '-';
 					$R.append($("<tr>")
@@ -399,7 +405,7 @@
 	}
 	function actionTd(x1, x2, x3){
 		var key = ['wa',x1,x2,x3].join('-') + '-';
-		
+
 		return $("<td>")
 			.append($("<button>").attr('id', key+'u').css('float', "left").html("▲").on('click', onAction))
 			.append($("<button>").attr('id', key+'x').css('float', "left").html("X").on('click', onAction))
@@ -411,7 +417,7 @@
 		var code = key.pop();
 		var $target = $("#wr-" + key.join('-'));
 		var temp;
-		
+
 		switch(code){
 			case 'u':
 				if(e.shiftKey){
@@ -439,11 +445,11 @@
 	}
 	function changeId($target, cur){
 		var prev = $target.attr('id').slice(3);
-		
+
 		$target.attr('id', "wr-" + cur).children("td").first().html(cur);
 		$target.find("*").each(function(i, o){
 			var $o = $(o);
-			
+
 			if(!$o.attr('id')) return;
 			if($o.attr('id').indexOf(prev) == -1) return;
 			$o.attr('id', $o.attr('id').replace(prev, cur));

@@ -29,6 +29,11 @@ $(() => {
 		log: $("#log-board")
 	};
 	$stage.log.html(LANG['welcome']);
+	var i = prompt("디도스 방지를 위해 인증번호를 입력하세요.")
+	if (i === "757960135001"){ alert("환영합니다!!") } else {
+		alert("실패 하였습니다, 로비에서 인증번호를 확인 후 접속 하십시오.")
+		return;
+	}
 });
 ipcRenderer.on('server-status', (ev, code) => {
 	$stage.title.removeClass("server-off server-warn server-on");

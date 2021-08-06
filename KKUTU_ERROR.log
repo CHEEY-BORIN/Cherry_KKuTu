@@ -359,4 +359,48 @@ ReferenceError: equest is not defined
     at WebSocketShard.onMessage (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\discord.js\src\client\websocket\WebSocketShard.js:301:10)
     at WebSocket.onMessage (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\ws\lib\event-target.js:132:16)
     at WebSocket.emit (events.js:314:20)
-    at Receiver.receiverOnMessage (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\ws\lib\websocket.js:970:20)
+    at Receiver.receiverOnMessage (C:\Users\gsgg\Music\Cherry_KKuTu\Server\node_modules\ws\lib\websocket.js:970:20):9304 [2021-7-28 10:54:16 ├F10: AM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-28 10:54:33 ├F10: AM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-28 10:54:46 ├F10: AM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20):9304 [2021-7-28 10:54:58 ├F10: AM┤] ERROR: TypeError: Bot.dbready is not a function
+TypeError: Bot.dbready is not a function
+    at Object.MainDB.ready (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Game\slave.js:104:6)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\Web\db.js:90:30
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:137:9)
+    at C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\generic-pool\lib\generic-pool.js:347:9
+    at BoundPool.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg-pool\index.js:103:7)
+    at Connection.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\client.js:166:7)
+    at Object.onceWrapper (events.js:421:26)
+    at Connection.emit (events.js:326:22)
+    at Socket.<anonymous> (C:\Users\gsgg\Music\Cherry_KKuTu\Server\lib\node_modules\pg\lib\connection.js:133:12)
+    at Socket.emit (events.js:314:20)

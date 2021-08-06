@@ -2,46 +2,28 @@
  * cherrykkutu bot 입니다
  * 저작권은 체리보린한테 있으며
  * 무단으로 코드를 복사하거나, 2차 복제에 대해 제지 할것이다.
- * 감사하다(?). 
+ * 감사하다(?).
  */
 // 모듈 불러온다.
 // 디스코드 봇 돌리기 위해 모듈을 불러온다.
 
 var Discord = require("discord.js");
-// 리턴시 jlog 로 출력하기 위함이다
-var JLog = require("../sub/jjlog")
-// !kn 시 끄투 공지를 출력해야하므로 KKuTu 를 선언했다.
-// 채널 ID 를 불러와야 하므로 선언했다.
+
+var JLog = require("../sub/jjlog");
+
 var GLOBAL = require("../sub/global.json");
-// servers 의 값을 불러와야하므로 선언했다.
-var request = require("request")
-// 버리자.
-// yell 때문에 필요하다
-var yell = require("./load");
 
-// 이건 왜 선언 되어있는지 모른다. 리펙토링 사용하다 선언된거 같다.
-// 그냥 버리자
-// const { KOR_FLAG } = require("../const");
+var request = require("request");
 
-// kill 사용으로 만든 기능이다. 그냥 버리자.
-// var dic = {};
+var load = require("./load");
 
-// 클라이언트 선언한다. client 보다 bot 이 나을거 같아 bot으로 선언했다.
 var Bot = new Discord.Client();
 
-// 채널 생성
-// 근데 이거는 global 에서 선언 되어 따로 선언 되지 않다. 
-
-// 봇 준비시 끄투 켜짐 발행 (2~최대 4번 나온다. 이유는 모른다.)
-Bot.on("ready", () => {
-   if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL)) return JLog.warn("ready 발송 과정에서 채널을 찾지 못함");
-   Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send("Bot ready");
-})
-// 마스터 준비시 발행한다. 근데 if 에서 이상한 리턴을 해버린다.
 exports.dbready = () => {
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL)) return
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send("```끄투 마스터 준비 끝```")
 }
+
 // 채팅시 발행한다
 exports.chat = (msg, id, name, channelId) => {
    if (!Bot.channels.cache.get("835829185367900191")) return JLog.warn("채팅 안됨");
@@ -49,11 +31,29 @@ exports.chat = (msg, id, name, channelId) => {
    Bot.channels.cache.get("835829185367900191").send(msg + `\n(${id}),{${channelId}}`)
 }
 // 지금은 안되지만 언젠간 될 kill 명령어 시 발행한다.
-exports.ban = (id) => {
+exports.ban = (id,reason,at) => {
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL)) return JLog.warn("kill 안됨")
-   Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(`type : 410 [${id}]`)
+   if (!reason) reason = "kill";
+   if (!at) at = "kill";
+   var embed = new Discord.MessageEmbed()
+   .setTitle("차단")
+   .setDescription("")
+   .addFields(
+      { name : "ID" , value : id},
+      { name : "이유", value : reason},
+      { name : "시간", value : at}
+   )
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(embed)
 }
-// 서버 game close 일때 실행한다. servernumber number 형식이다.
+exports.word = (word,theme) => {
+   if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.word_Channel)) return JLog.warn("word 안됨")
+   var embed = new Discord.MessageEmbed()
+   .setTitle("단어 목록")
+   .setDescription(`주제 : ${theme} \n\n ${word}`)
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.word_Channel).send(embed);
+}
+
+
 exports.close = (servernumber) => {
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL)) return
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(`***서버 닫힘*** **서버 번호** **|${servernumber}|**`)
@@ -70,6 +70,7 @@ exports.page = (ip, guest, page) => {
    if (ip === "211.224.188.58") return;
    if (page === "portal") return;
    if (page === "login") return;
+   if (page === "loginfail") return;
    if (page === "gwalli") return;
    if (page === "m_portal") return;
    if (page === "m_login") return;
@@ -78,57 +79,70 @@ exports.page = (ip, guest, page) => {
 
    Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send(`${ip.split(".").slice(0, 2).join(".") + ".xx.xx"},${page}`)
 }
-// 공지시 발송한다.
+// 공지시 발송한다. yell.yell 방식으로 !kn 으로 처리하니 꼭 구별 하도록 하자!
 exports.notice = (msg, id, name) => {
-   var embed = new Discord.MessageEmbed()
+   var i;
+   if (!name) name = "끄투 전송"
+   if (!msg) return JLog.warn("메시지 부족")
+   i = new Discord.MessageEmbed()
       .setTitle("끄투 공지")
       .setDescription(`**${msg}**`)
       .setFooter(`${id},[${name}]`);
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.notice_Channel)) return;
-   Bot.channels.cache.get(GLOBAL.BOT_SETTING.notice_Channel).send(embed)
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.notice_Channel).send(i)
 }
 // 끄투 채팅에서 변경시 호출한다.
 exports.un = (msg) => {
+   var i;
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel)) return;
-   var embed = new Discord.MessageEmbed({
+   if (msg)
+   i = new Discord.MessageEmbed({
       title: "환율 변경",
       description: `**${msg}**` + "/핑",
       color: "ff0000"
    })
-   Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel).send(embed)
+   else i = "메시지가 없음."
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel).send(i)
+}
+exports.start = (id) => {
+   if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL)) return
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.SETTING_CHANNEL).send("끄투 접속 (id:" + id + ")")
 }
 // 182줄에서 쓴다.
 function un(msg) {
+   var i;
    if (!Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel)) return;
-   var embed = new Discord.MessageEmbed({
+   if (msg)
+   i = new Discord.MessageEmbed({
       title: "환율 변경",
       description: `**${msg}**` + "/핑",
       color: "ff0000"
    })
-   Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel).send(embed)
+   else i = "메시지가 없음."
+   Bot.channels.cache.get(GLOBAL.BOT_SETTING.un_Channel).send(i)
 }
 // 디스코드 메시지를 수집해 명령문을 내린다.
-Bot.on("message", (message) => {
+Bot.on("message", async (m) => {
    // !kn , !kkutunotice (내용) 을 하면 Discord Send : (내용) 으로 끄투 공지로 출력한다.근데 !kkutunotice 는 지울 전망이다 엇갈린다.
-   if (message.content.startsWith("!kn")) {
-      var msg = message.content.slice(3)
+   if (m.content.startsWith("!kn")) {
+      var msg = m.content.slice(3)
 
-      if (message.author.id === ("820525053141319691") || message.author.id === ("551639169865220096")) {
-         yell.yell(msg, message.author.id, message.author.username) // 처리 방법 변경함.
+      if (GLOBAL.BOT_SETTING.admin_yell_id.includes(m.author.id)) {
+         load.yell(msg, m.author.id, m.author.username) // 처리 방법 변경함.
       } else { // 위에 5516.. 체리끄투 관리자가 라면 공지가 되지만 아니라면 권한이 없다고 한다 근데 권한 없다고 3번이 뜬다 이유를 모른다.
-         message.reply("권한 없음");
+         m.reply("권한 없음");
          return; // 그러고선 리턴을 해버린다 필요없긴 하지만.
       }
    }
    // err,res 는 사용되지 않은 선언문이지만 지우지 말자 (그러면 body 안됨 )모듈상으로 .ㅠ
-   if (message.content.startsWith("!list") || message.content.startsWith("!kkutulist")) {
-      request.get({ url: "http://cherry.or-kr.ml/servers" }, function (error, res, body) { // error,res 는 지우지 말자 왜냐하면 모듈상으로 error,res,body 순이기 때문에 지워버리면 err 로 인식해버린다.
-         message.channel.send(`**${body}**`) // 그러고선 채널에 전송한다 (3번씩이나.)
+   if (m.content.startsWith("!list") || m.content.startsWith("!kkutulist")) {
+      request.get({ url: "http://ck.k-r.pw/servers" }, function (error, res, body) { // error,res 는 지우지 말자 왜냐하면 모듈상으로 error,res,body 순이기 때문에 지워버리면 err 로 인식해버린다.
+         m.channel.send(`**${body}**`) // 그러고선 채널에 전송한다 (3번씩이나.)
       })
    }
 
-   if (message.content.startsWith("!ek")) { // 타 끄투 서버의 리스트를 불러오는 명령어이다.
-      let msg = message.content.slice("!ek".length); // msg 를 불러온다 
+   if (m.content.startsWith("!ek")) { // 타 끄투 서버의 리스트를 불러오는 명령어이다.
+      var msg = m.content.slice("!ek".length); // msg 를 불러온다
       // 편의성을 위해 체리끄투가 노가다 해서 만든것이다. !ek 끄투리오 하면 servers 요청 하여 나온다.
       if (msg === " 끄투리오") { // 띄어쓰기는 절대 빼지 말자. 띄어쓰기를 빼려면 slice(4) 로 설정하면 띄어쓰기를 빼야 된다.
          msg = "https://kkutu.io/" // 끄투리오라면 msg 를 변환한다. 사이트로
@@ -174,28 +188,28 @@ Bot.on("message", (message) => {
          msg = "http://cherrykkutu.kro.kr/"
       } // 없는 것도 있다. 없으면 체리끄투 채팅에 없다고 알리자.
       // 만일 !ek ㅁㄴㅇㄹ 라고 하면 사이트가 ㅁㄴㅇㄹ 가 된다 저기 if 문에 없다면 사이트로도 가능하다.
-      request.get({ url: msg + "servers" }, function (e, r, body) { // 아까 120 줄에서 설명했다.
+      request.get({ url: msg + "servers" }, function (e, r, b) { // 아까 120 줄에서 설명했다.
          if (!body) body = "해당 끄투 연결 안됨.";
-         message.channel.send(`**${body}**`);
+         m.channel.send(`**${b}**`);
       })
    }
    // kill (강퇴) 기능이다 근데 이거 빠꾸(에러) 나오니 그냥 버리는게 좋다.
-   /* if (message.content.startsWith("/kill")){
+   /* if (m.content.startsWith("/kill")){
         var temp;
-        let msg = message.content.slice(6);
+        let msg = m.content.slice(6);
         try{
            if (temp = dic[msg]){
               temp.socket.send('{"type":"error","code":410}');
               temp.socket.close();
            }
         } catch(e) {
-           message.channel.send(e)
+           m.channel.send(e)
         }
      }
      */
    // 환율 기능이다. 저런닷컴과 체리끄투가 환전소로 거듭나 만든 기능이다.
-   if (message.content.startsWith("/un")) { // !un 123 이라고 하면 환율을 수정한다 DB와 전혀 무관하다.
-      var msg = message.content.slice(3) // msg 를 선언하고,
+   if (m.content.startsWith("/un")) { // !un 123 이라고 하면 환율을 수정한다 DB와 전혀 무관하다.
+      var msg = m.content.slice(3) // msg 를 선언하고,
       un(msg) // 84줄에 function un 이 있다. 수정할려면 84 줄 아래를 수정하면 된다.
 
 

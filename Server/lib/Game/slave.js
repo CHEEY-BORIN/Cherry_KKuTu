@@ -101,7 +101,6 @@ process.on('message', function(msg){
 });
 MainDB.ready = function(){
 	JLog.success("DB is ready.");
-	Bot.dbready();
 	KKuTu.init(MainDB, DIC, ROOM, GUEST_PERMISSION);
 };
 Server.on('connection', function(socket, info){

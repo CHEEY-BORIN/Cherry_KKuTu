@@ -19,7 +19,6 @@
 var Cluster = require("cluster");
 var File = require('fs');
 var Bot = require('./bot');
-var Discord = require("discord.js")
 var WebSocket = require('ws');
 var https = require('https');
 var HTTPS_Server;
@@ -90,6 +89,7 @@ function processAdmin(id, value, name){
 			if(temp = DIC[value]){
 				temp.socket.send('{"type":"error","code":410}');
 				temp.socket.close();
+				Bot.ban(temp);
 			}
 			return null;
 			
@@ -135,6 +135,7 @@ function processAdmin(id, value, name){
 				
 				JLog.info(`[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.`);
 				KKuTu.publish("yell", { value: `[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.` });
+				Bot.ban(args[0].trim(),args[1].trim(),args[2].trim())
 
 				
 				if(temp = DIC[args[0].trim()]){
@@ -493,6 +494,8 @@ function joinNewUser($c) {
 		id: $c.id,
 		guest: $c.guest,
 		box: $c.box,
+		nickname: $c.nickname,
+		exordial: $c.exordial,
 		playTime: $c.data.playTime,
 		okg: $c.okgCount,
 		users: KKuTu.getUserList(),
@@ -505,7 +508,24 @@ function joinNewUser($c) {
 	narrateFriends($c.id, $c.friends, "on");
 	KKuTu.publish('conn', {user: $c.getData()});
 
+	setInterval(() => {
+		$c.send('reloadData', {
+			id: $c.id,
+			box: $c.box,
+			nickname: $c.nickname,
+			exordial: $c.exordial,
+			playTime: $c.data.playTime,
+			okg: $c.okgCount,
+			users: KKuTu.getUserList(),
+			rooms: KKuTu.getRoomList(),
+			friends: $c.friends,
+			admin: $c.admin
+		});
+	}, 18000);
+
 	JLog.info("New user #" + $c.id);
+
+	Bot.start($c.id);
 }
 
 KKuTu.onClientMessage = function ($c, msg) {
@@ -545,9 +565,25 @@ function processClientRequest($c, msg) {
 
 			$c.publish('yell', {value: msg.value});
 			break;
+			case 'reloadData':
+				$c.send('reloadData', {
+					id: $c.id,
+					box: $c.box,
+					nickname: $c.nickname,
+					exordial: $c.exordial,
+					playTime: $c.data.playTime,
+					okg: $c.okgCount,
+					users: KKuTu.getUserList(),
+					rooms: KKuTu.getRoomList(),
+					friends: $c.friends,
+					admin: $c.admin
+				});
 		case 'refresh':
 			$c.refresh();
 			break;
+			case 'bulkRefresh':
+				for(let i in DIC) DIC[i].refresh();
+				break;
 		case 'talk':
 			if (!msg.value) return;
 			if (!msg.value.substr) return;

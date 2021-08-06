@@ -38,12 +38,17 @@ block Middle
 						td 링크
 						td #
 						td theme
-						td writer
+						td writerf
 						td createdAt
 					tbody#injeong-data
 			button#injeong-everything 모두 승인
 			button#injeong-nothing 모두 거절
 			button#injeong-apply 적용
+	fieldset
+		legend 끄투 공지 발송하기
+		div 
+			input#kkutu-notice-text(placeholder='공지 발송 내용 입력')
+			button#kkutu-notice-ok 전송
 	fieldset
 		legend 상점 DB 다루기
 		div
@@ -81,6 +86,8 @@ block Middle
 						td kkutu
 						td box
 						td equip
+						td nickname
+						td nickChanged
 						td exordial
 						td server
 						td lastLogin

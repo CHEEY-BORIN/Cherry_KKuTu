@@ -210,7 +210,7 @@ exports.KO_INJEONG = [
 ];
 exports.EN_INJEONG = [
 	"LOL"
-];
+];       
 exports.KO_THEME = [
 	"30", "40", "60", "80", "90",
 	"140", "150", "160", "170", "190",

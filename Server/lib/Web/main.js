@@ -177,7 +177,6 @@ function GameClient(id, url){
 	};
 	my.socket.on('open', function(){
 		JLog.info(`Game server #${my.id} connected`);
-		Bot.serverready(my.id)
 	});
 	my.socket.on('error', function(err){
 		JLog.warn(`Game server #${my.id} has an error: ${err.toString()}`);
@@ -247,6 +246,7 @@ Server.get("/", function(req, res){
 			'MODE': Const.GAME_TYPE,
 			'RULE': Const.RULE,
 			'OPTIONS': Const.OPTIONS,
+			'NICKNAME_LIMIT': GLOBAL.NICKNAME_LIMIT,
 			'KO_INJEONG': Const.KO_INJEONG,
 			'EN_INJEONG': Const.EN_INJEONG,
 			'KO_THEME': Const.KO_THEME,
