@@ -151,7 +151,7 @@ Server.post("/profile", function(req, res){
 		}
 
 		if(!nickname) return res.send({ result: 200 });
-	}else return res.send({ error: 400 });
+	}else return res.send({ error: 400 });fb
 });
 Server.post("/buy/:id", function(req, res){
 	if(req.session.profile){

@@ -382,7 +382,8 @@ exports.init = function(_SID, CHAN){
 			}
 			MainDB.session.findOne([ '_id', key ]).limit([ 'profile', true ]).on(function($body){
 				$c = new KKuTu.Client(socket, $body ? $body.profile : null, key);
-				$c.admin = GLOBAL.ADMIN.indexOf($c.id) != -1;
+				$c.usadmin = GLOBAL.ADMIN.USERADMIN.indexOf($c.id) != -1;
+				$c.wdadmin = GLOBAL.ADMIN.WORDADMIN.indexOf($c.id) != -1;
 				/* Enhanced User Block System [S] */
 				$c.remoteAddress = GLOBAL.USER_BLOCK_OPTIONS.USE_X_FORWARDED_FOR ? info.connection.remoteAddress : (info.headers['x-forwarded-for'] || info.connection.remoteAddress);
 				/* Enhanced User Block System [E] */
@@ -501,7 +502,8 @@ function joinNewUser($c) {
 		users: KKuTu.getUserList(),
 		rooms: KKuTu.getRoomList(),
 		friends: $c.friends,
-		admin: $c.admin,
+		useradmin: $c.usadmin,
+		wordadmin: $c.wdadmin,
 		test: global.test,
 		caj: $c._checkAjae ? true : false
 	});
@@ -519,7 +521,8 @@ function joinNewUser($c) {
 			users: KKuTu.getUserList(),
 			rooms: KKuTu.getRoomList(),
 			friends: $c.friends,
-			admin: $c.admin
+			useradmin: $c.usadmin,
+			wordadmin: $c.wdadmin
 		});
 	}, 18000);
 
@@ -561,7 +564,7 @@ function processClientRequest($c, msg) {
 	switch (msg.type) {
 		case 'yell':
 			if (!msg.value) return;
-			if (!$c.admin) return;
+			if (!$c.usadmin) return;
 
 			$c.publish('yell', {value: msg.value});
 			break;
@@ -576,7 +579,8 @@ function processClientRequest($c, msg) {
 					users: KKuTu.getUserList(),
 					rooms: KKuTu.getRoomList(),
 					friends: $c.friends,
-					admin: $c.admin
+					useradmin: $c.usadmin,
+					wordadmin: $c.wdadmin
 				});
 		case 'refresh':
 			$c.refresh();
@@ -592,7 +596,7 @@ function processClientRequest($c, msg) {
 				return;
 			}
 			msg.value = msg.value.substr(0, 200);
-			if ($c.admin) {
+			if ($c.useradmin) {
 				if (!processAdmin($c.id, msg.value)) break;
 			}
 			checkTailUser($c.id, $c.place, msg);

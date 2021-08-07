@@ -1,17 +1,17 @@
 /**
  * Rule the words! KKuTu Online
  * Copyright (C) 2017 JJoriping(op@jjo.kr)
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,9 +31,10 @@ function process(req, accessToken, MainDB, $p, done) {
 
     let now = Date.now();
     $p.sid = req.session.id;
-    req.session.admin = GLOBAL.ADMIN.includes($p.id);
+    req.session.usadmin = GLOBAL.ADMIN.USERADMIN.includes($p.id);
+    req.session.wordadmin = GLOBAL.ADMIN.WORDADMIN.includes($p.id);
     req.session.authType = $p.authType;
-	 
+
     MainDB.users.findOne([ '_id', $p.id ]).on(($body) => {
         req.session.profile = $p;
 		  req.session.nickname = $body ? $body.nickname : ($p.title || $p.name);
@@ -62,7 +63,7 @@ exports.run = (Server, page) => {
     });
 
     const strategyList = {};
-    
+
 	for (let i in config) {
 		try {
 			let auth = require(path.resolve(__dirname, '..', 'auth', 'auth_' + i + '.js'))
@@ -85,7 +86,7 @@ exports.run = (Server, page) => {
 			JLog.error(error.message)
 		}
 	}
-	
+
 	Server.get("/login", (req, res) => {
 		if(global.isPublic){
 			page(req, res, "login", { '_id': req.session.id, 'text': req.query.desc, 'loginList': strategyList});
@@ -100,7 +101,8 @@ exports.run = (Server, page) => {
 			};
 			MainDB.session.upsert([ '_id', req.session.id ]).set([ 'profile', JSON.stringify(lp) ], [ 'createdAt', now ]).on(function($res){
 				MainDB.users.update([ '_id', id ]).set([ 'lastLogin', now ]).on();
-				req.session.admin = true;
+				req.session.usadmin = true
+        req.session.wordadmin = true
 				req.session.profile = lp;
 				res.redirect("/");
 			});

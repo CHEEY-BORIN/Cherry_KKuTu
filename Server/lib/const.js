@@ -1,17 +1,17 @@
 /**
  * Rule the words! KKuTu Online
  * Copyright (C) 2017 JJoriping(op@jjo.kr)
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,7 @@ exports.SPAM_LIMIT = 7;
 exports.BLOCKED_LENGTH = 10000;
 exports.KICK_BY_SPAM = 9;
 exports.MAX_OBSERVER = 4;
-exports.TESTER = GLOBAL.ADMIN.concat([
+exports.TESTER = GLOBAL.ADMIN.USERADMIN.concat([
 	"Input tester id here"
 ]);
 exports.IS_SECURED = GLOBAL.IS_SECURED;
@@ -210,7 +210,7 @@ exports.KO_INJEONG = [
 ];
 exports.EN_INJEONG = [
 	"LOL"
-];       
+];
 exports.KO_THEME = [
 	"30", "40", "60", "80", "90",
 	"140", "150", "160", "170", "190",
