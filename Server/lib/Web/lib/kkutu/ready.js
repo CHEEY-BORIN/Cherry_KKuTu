@@ -167,7 +167,7 @@ $(document).ready(function(){
 	}
 	$data._soundList = [
 		{ key: "k", value: "/media/kkutu/k.mp3" },
-		{ key: "lobby", value: "/media/kkutu/cherrykkutu.mp3" },
+		{ key: "lobby", value: "/media/kkutu/LobbyBGM.mp3" },
 		{ key: "jaqwi", value: "/media/kkutu/JaqwiBGM.mp3" },
 		{ key: "jaqwiF", value: "/media/kkutu/JaqwiFastBGM.mp3" },
 		{ key: "game_start", value: "/media/kkutu/game_start.mp3" },

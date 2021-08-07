@@ -64,7 +64,7 @@ const PORT = process.env['KKUTU_PORT'];
 
 process.on('uncaughtException', function(err){
 	var text = `:${PORT} [${new Date().toLocaleString()}] ERROR: ${err.toString()}\n${err.stack}\n`;
-	
+
 	File.appendFile("/jjolol/KKUTU_ERROR.log", text, function(res){
 		JLog.error(`ERROR OCCURRED ON THE MASTER!`);
 		console.log(text);
@@ -72,7 +72,7 @@ process.on('uncaughtException', function(err){
 });
 function processAdmin(id, value, name){
 	var cmd, temp, i, j;
-	
+
 	value = value.replace(/^(!\w+\s+)?(.+)/, function(v, p1, p2){
 		if(p1) cmd = p1.slice(1).trim();
 		return p2;
@@ -92,7 +92,7 @@ function processAdmin(id, value, name){
 				Bot.ban(temp);
 			}
 			return null;
-			
+
 		case "tailroom":
 			if(temp = ROOM[value]){
 				if(T_ROOM[value] == id){
@@ -130,14 +130,14 @@ function processAdmin(id, value, name){
 				if(args.length == 2){
 					MainDB.users.update([ '_id', args[0].trim() ]).set([ 'black', args[1].trim() ]).on();
 				}else if(args.length == 3){
-					MainDB.users.update([ '_id', args[0].trim() ]).set([ 'black', args[1].trim() ], [ 'blockedUntil', addDate(parseInt(args[2].trim())) ]).on();				
+					MainDB.users.update([ '_id', args[0].trim() ]).set([ 'black', args[1].trim() ], [ 'blockedUntil', addDate(parseInt(args[2].trim())) ]).on();
 				}else return null;
-				
+
 				JLog.info(`[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.`);
 				KKuTu.publish("yell", { value: `[Block] 사용자 #${args[0].trim()}(이)가 이용제한 처리되었습니다.` });
 				Bot.ban(args[0].trim(),args[1].trim(),args[2].trim())
 
-				
+
 				if(temp = DIC[args[0].trim()]){
 					temp.socket.send('{"type":"error","code":410}');
 					temp.socket.close();
@@ -152,9 +152,9 @@ function processAdmin(id, value, name){
 				if(args.length == 2){
 					MainDB.ip_block.update([ '_id', args[0].trim() ]).set([ 'reasonBlocked', args[1].trim() ]).on();
 				}else if(args.length == 3){
-					MainDB.ip_block.update([ '_id', args[0].trim() ]).set([ 'reasonBlocked', args[1].trim() ], [ 'ipBlockedUntil', addDate(parseInt(args[2].trim())) ]).on();				
+					MainDB.ip_block.update([ '_id', args[0].trim() ]).set([ 'reasonBlocked', args[1].trim() ], [ 'ipBlockedUntil', addDate(parseInt(args[2].trim())) ]).on();
 				}else return null;
-				
+
 				JLog.info(`[Block] IP 주소 ${args[0].trim()}(이)가 이용제한 처리되었습니다.`);
 			}catch(e){
 				processAdminErrorCallback(e, id);
@@ -162,7 +162,7 @@ function processAdmin(id, value, name){
 			return null;
 		case 'unban':
 			try {
-				MainDB.users.update([ '_id', value ]).set([ 'black', null ], [ 'blockedUntil', 0 ]).on();								
+				MainDB.users.update([ '_id', value ]).set([ 'black', null ], [ 'blockedUntil', 0 ]).on();
 				JLog.info(`[Block] 사용자 #${value}(이)가 이용제한 해제 처리되었습니다.`);
 			}catch(e){
 				processAdminErrorCallback(e, id);
@@ -170,13 +170,19 @@ function processAdmin(id, value, name){
 			return null;
 		case 'ipunban':
 			try {
-				MainDB.ip_block.update([ '_id', value ]).set([ 'reasonBlocked', null ], [ 'ipBlockedUntil', 0 ]).on();								
+				MainDB.ip_block.update([ '_id', value ]).set([ 'reasonBlocked', null ], [ 'ipBlockedUntil', 0 ]).on();
 				JLog.info(`[Block] IP 주소 ${value}(이)가 이용제한 해제 처리되었습니다.`);
 			}catch(e){
 				processAdminErrorCallback(e, id);
 			}
 			return null;
 		/* Enhanced User Block System [E] */
+    case 'warn':
+      var [userid,number] = value.split(",");
+      MainDB.warn.update([ '_id', userid]).set([ 'warn', number]).on();
+      JLog.info(`${userid}님에게 ${number}회 경고 설정됨. (${id})`);
+      KKuTu.publish("notice", {value : `${userid}님이 경고 ${number}회로 설정되었습니다.`})
+      return null;
 	}
 	return value;
 }
@@ -193,7 +199,7 @@ function processAdminErrorCallback(error, id){
 /* Enhanced User Block System [E] */
 function checkTailUser(id, place, msg){
 	var temp;
-	
+
 	if(temp = T_USER[id]){
 		if(!DIC[temp]){
 			delete T_USER[id];
@@ -205,18 +211,18 @@ function checkTailUser(id, place, msg){
 function narrateFriends(id, friends, stat){
 	if(!friends) return;
 	var fl = Object.keys(friends);
-	
+
 	if(!fl.length) return;
-	
+
 	MainDB.users.find([ '_id', { $in: fl } ], [ 'server', /^\w+$/ ]).limit([ 'server', true ]).on(function($fon){
 		var i, sf = {}, s;
-		
+
 		for(i in $fon){
 			if(!sf[s = $fon[i].server]) sf[s] = [];
 			sf[s].push($fon[i]._id);
 		}
 		if(DIC[id]) DIC[id].send('friends', { list: sf });
-		
+
 		if(sf[SID]){
 			KKuTu.narrate(sf[SID], 'friend', { id: id, s: SID, stat: stat });
 			delete sf[SID];
@@ -229,9 +235,9 @@ function narrateFriends(id, friends, stat){
 }
 Cluster.on('message', function(worker, msg){
 	var temp;
-	
+
 	switch(msg.type){
-		case "admin":
+		case "useradmin":
 			if(DIC[msg.id] && DIC[msg.id].admin) processAdmin(msg.id, msg.value, msg.name);
 			break;
 		case "tail-report":
@@ -297,7 +303,7 @@ Cluster.on('message', function(worker, msg){
 				if(ROOM[msg.id] && ROOM[msg.id].players){
 					// 이 때 수동으로 지워준다.
 					var x = ROOM[msg.id].players.indexOf(msg.target);
-					
+
 					if(x != -1){
 						ROOM[msg.id].players.splice(x, 1);
 						JLog.warn(`^ OK`);
@@ -326,7 +332,7 @@ Cluster.on('message', function(worker, msg){
 			if(msg.create && ROOM[msg.id]){
 				for(var i in ROOM[msg.id].players){
 					var $c = DIC[ROOM[msg.id].players[i]];
-					
+
 					if($c) $c.send('roomStuck');
 				}
 				delete ROOM[msg.id];
@@ -344,7 +350,7 @@ exports.init = function(_SID, CHAN){
 	MainDB = require('../Web/db');
 	MainDB.ready = function(){
 		JLog.success("Master DB is ready.");
-		
+
 		MainDB.users.update([ 'server', SID ]).set([ 'server', "" ]).on();
 		if(Const.IS_SECURED) {
 			const options = Secure();
@@ -360,7 +366,7 @@ exports.init = function(_SID, CHAN){
 		Server.on('connection', function(socket, info){
 			var key = info.url.slice(1);
 			var $c;
-			
+
 			socket.on('error', function(err){
 				JLog.warn("Error on #" + key + " on ws: " + err.toString());
 			});
@@ -387,7 +393,7 @@ exports.init = function(_SID, CHAN){
 				/* Enhanced User Block System [S] */
 				$c.remoteAddress = GLOBAL.USER_BLOCK_OPTIONS.USE_X_FORWARDED_FOR ? info.connection.remoteAddress : (info.headers['x-forwarded-for'] || info.connection.remoteAddress);
 				/* Enhanced User Block System [E] */
-				
+
 				if(DIC[$c.id]){
 					DIC[$c.id].sendError(408);
 					DIC[$c.id].socket.close();
@@ -440,15 +446,15 @@ exports.init = function(_SID, CHAN){
 				$c.refresh().then(function(ref){
 					/* Enhanced User Block System [S] */
 					let isBlockRelease = false;
-					
+
 					if(ref.blockedUntil < Date.now()) {
 						DIC[$c.id] = $c;
 						MainDB.users.update([ '_id', $c.id ]).set([ 'blockedUntil', 0 ], [ 'black', null ]).on();
 						JLog.info(`사용자 #${$c.id}의 이용제한이 해제되었습니다.`);
 						isBlockRelease = true;
 					}
-					/* Enhanced User Block System [E] */						
-					
+					/* Enhanced User Block System [E] */
+
 					/* Enhanced User Block System [S] */
 					if(ref.result == 200 || isBlockRelease){
 					/* Enhanced User Block System [E] */
@@ -475,7 +481,7 @@ exports.init = function(_SID, CHAN){
 							code: ref.result, message: ref.black
 						});
 						/* Enhanced User Block System [E] */
-						
+
 						$c._error = ref.result;
 						$c.socket.close();
 						// JLog.info("Black user #" + $c.id);
@@ -533,7 +539,7 @@ function joinNewUser($c) {
 
 KKuTu.onClientMessage = function ($c, msg) {
 	if (!msg) return;
-	
+
 	if ($c.passRecaptcha) {
 		processClientRequest($c, msg);
 	} else {
@@ -560,7 +566,7 @@ function processClientRequest($c, msg) {
 	var stable = true;
 	var temp;
 	var now = (new Date()).getTime();
-	
+
 	switch (msg.type) {
 		case 'yell':
 			if (!msg.value) return;

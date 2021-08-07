@@ -75,19 +75,6 @@ Server.post("/gwalli/users", function(req, res){
 	});
 	res.sendStatus(200);
 });
-Server.post("/gwalli/shop", function(req, res){
-	if(!checkAdmin(req, res)) return;
-	if(req.body.pw != GLOBAL.PASS) return res.sendStatus(400);
-
-	var list = JSON.parse(req.body.list).list;
-
-	list.forEach(function(item){
-		item.core.options = JSON.parse(item.core.options);
-		MainDB.kkutu_shop.upsert([ '_id', item._id ]).set(item.core).on();
-		MainDB.kkutu_shop_desc.upsert([ '_id', item._id ]).set(item.text).on();
-	});
-	res.sendStatus(200);
-});
 
 };
 function noticeAdmin(req, ...args){

@@ -130,7 +130,7 @@ Bot.on("message", async (m) => {
       var text = m.content.slice(3)
 
       if (GLOBAL.BOT_SETTING.admin_yell_id.includes(m.author.id)) {
-         load.yell(text, m.author.id, m.author.username) // 처리 방법 변경함.
+         load.yell("Discord : " + text, m.author.id, m.author.username) // 처리 방법 변경함.
       } else { // 위에 5516.. 체리끄투 관리자가 라면 공지가 되지만 아니라면 권한이 없다고 한다 근데 권한 없다고 3번이 뜬다 이유를 모른다.
          m.reply("권한 없음");
          return; // 그러고선 리턴을 해버린다 필요없긴 하지만.

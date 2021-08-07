@@ -85,7 +85,7 @@ Pub.ready = function(isPub){
 			DB.users = new mainAgent.Table("users");
 			/* Enhanced User Block System [S] */
 			DB.ip_block = new mainAgent.Table("ip_block");
-			/* Enhanced User Block System [E] */
+			DB.warn = new mainAgent.Table("warn")
 			
 			if(exports.ready) exports.ready(Redis, Pg);
 			else JLog.warn("DB.onReady was not defined yet.");

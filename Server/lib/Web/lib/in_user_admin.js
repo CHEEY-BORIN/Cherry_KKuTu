@@ -18,7 +18,7 @@
 (function(){
 	var WIDTH = { 'y': 50, 't': 50, 'g': 100, 'l': 200, 'm': 600 };
 	var $temp = {};
-	var KKuTu = require("../../Game/kkutu")
+	var load = require("../../Game/load")
 
 	$(document).ready(function(){
 		$("#user-go").on('click', function(e){
@@ -39,6 +39,7 @@
 						.append($("<td>").append(putter("ud-" + item._id + "-exordial", 'g', item.exordial)))
 						.append($("<td>").append(putter("ud-" + item._id + "-server", 't', item.server)))
 						.append($("<td>").append(putter("ud-" + item._id + "-lastLogin", 't', item.lastLogin)))
+            .addend($("<td>").append(putter("ud-" + item._id + "-warn", 't', item.warn)))
 						.append($("<td>").append(putter("ud-" + item._id + "-black", 'g', item.black)))
 						/* Enhanced User Block System [S] */
 						.append($("<td>").append(putter("ud-" + item._id + "-blockedUntil", 'g', item.blockedUntil)))
@@ -106,7 +107,7 @@
 		});
 		// 끄투 공지 발송
 	$("#kkutu-notice-ok").on('click', function(e){
-	   KKuTu.publish("yell", {value : $("#kkutu-notice-text").val()});
+		load.yell($("#kkutu-notice-text").val(),"useradmin","관리자 페이지")
 	});
 });
 })();
