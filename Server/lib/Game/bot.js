@@ -7,6 +7,7 @@
 // 모듈 불러온다.
 // 디스코드 봇 돌리기 위해 모듈을 불러온다.
 
+// warning! 이 디스코드 모듈은 12.5.3 이하 버전만 대응 합니다.
 var Discord = require("discord.js");
 
 var JLog = require("../sub/jjlog");
